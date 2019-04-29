@@ -1,0 +1,10 @@
+{
+  "name": "@demo/demo",
+  "version": "0.0.1",
+  "dependencies": {
+    "versions-compare": {
+      "version": "1.0.5",
+      "integrity": "sha512-dnoNhuoEuZk3949mQnEmuxRf4SDBU6Fatf0HDyDBC6bhfveqDSFonKbNKL0bNAGg+nLfUWOVKPL7O2v1zTcN8A=="
+    }
+  }
+}

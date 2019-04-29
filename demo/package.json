@@ -1,0 +1,22 @@
+{
+  "name": "demo",
+  "version": "0.0.1",
+  "discription": "apmjs demo",
+  "scripts": {
+    "preversion": "error",
+    "url": "echo visit: http://127.0.0.1:8077/demo/",
+    "start": "npm run url && http-server ../ -c-1 -p 8077"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">= 6.0.x"
+  },
+  "license": "MIT",
+  "author": "qiansc",
+  "amdDependencies": {
+    "versions-compare": "^1.0.5"
+  }
+}

@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    background: #FFF;
+}
+html {
+
+}
+.con {
+    margin: 50px;
+}
+label {
+    font-size: 16px;
+}
+input {
+    border: 1px solid #666;
+    border-radius: 5px;
+}
+.ton {
+    text-align: center;
+}
