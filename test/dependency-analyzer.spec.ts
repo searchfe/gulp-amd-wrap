@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 18:55:00
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 17:46:07
+ * @Last Modified time: 2019-04-29 17:47:29
  */
 
 import { parse, parseScript } from 'esprima';
@@ -35,5 +35,7 @@ console.log(da.analysis());
  * "name":"require"},"arguments":[{"type":"Literal","value":"A","raw":"'A'"}]}}]
  */
 describe('Test is comming soon', () => {
+  it('one', () => {
   // do nothing
+  });
 });

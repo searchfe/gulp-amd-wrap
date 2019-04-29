@@ -12,5 +12,7 @@ const parser = new Parser(content, filePath, root);
 parser.hook();
 
 describe('Test is comming soon', () => {
+  it('one', () => {
   // do nothing
+  });
 });

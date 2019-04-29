@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 17:45:59
+ * @Last Modified time: 2019-04-29 17:47:28
  */
 
 import * as gulp from 'gulp';
@@ -21,7 +21,9 @@ gulp.src(
 );
 
 describe('Test is comming soon', () => {
+  it('one', () => {
   // do nothing
+  });
 });
 
 // describe('测试评论列表项组件', () => {
