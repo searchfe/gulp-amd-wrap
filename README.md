@@ -15,8 +15,8 @@ npm i gulp-amd-hook --save-dev
 
 ## Example
 
-```
-import { amdHook } from'gulp-amd-hook';
+```Typescript
+import { amdHook } from 'gulp-amd-hook';
 
 gulp.src(
   // 资源
@@ -33,7 +33,7 @@ gulp.src(
 
 ```
 
-```
+```javascript
 // Before
 define(function() {
   'use strict';
