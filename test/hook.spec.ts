@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 17:28:42
+ * @Last Modified time: 2019-04-29 17:45:59
  */
 
 import * as gulp from 'gulp';
@@ -19,6 +19,10 @@ gulp.src(
 })).pipe(
   gulp.dest(`${__dirname}\/dist\/`),
 );
+
+describe('Test is comming soon', () => {
+  // do nothing
+});
 
 // describe('测试评论列表项组件', () => {
 

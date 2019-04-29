@@ -10,3 +10,7 @@ const content = readFileSync(filePath);
 const parser = new Parser(content, filePath, root);
 
 parser.hook();
+
+describe('Test is comming soon', () => {
+  // do nothing
+});

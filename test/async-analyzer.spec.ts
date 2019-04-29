@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 18:55:00
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 16:57:53
+ * @Last Modified time: 2019-04-29 17:46:11
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -25,3 +25,7 @@ const ast = parseScript(code);
 const aa = new AsyncAnalyzer(dirname(__dirname), ast);
 aa.analysis();
 console.log(generate(aa.ast));
+
+describe('Test is comming soon', () => {
+  // do nothing
+});
