@@ -25,9 +25,11 @@ export function parseBase(
   baseUrl: string,
   /** 分析的ast node,因为ast库没有支持ts,所以ast类型为any */
   moduleID: string,
+  /** moduleID前缀 */
+  prefix?: string,
 ): string {
   if (moduleID.match(/^\//) !== null && moduleID.indexOf(baseUrl) === 0 ) {
-    return moduleID.substring(baseUrl.length + 1).replace(/(\.js|\.ts)$/, '');
+    return (prefix ? prefix + '/' : '') + moduleID.substring(baseUrl.length + 1).replace(/(\.js|\.ts)$/, '');
   }
-  return moduleID.replace(/(\.js|\.ts)$/, '');
+  return (prefix ? prefix + '/' : '') + moduleID.replace(/(\.js|\.ts)$/, '');
 }

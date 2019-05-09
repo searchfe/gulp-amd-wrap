@@ -16,6 +16,9 @@ export function amdHook(option: IAmdHook) {
   return new Transform({
     objectMode: true,
     transform: (file: File, enc, callback) => {
+      // 传入baseUrl则moduleid基于baseUrl计算
+      const baseUrl = option.baseUrl || file.base;
+      const prefix = option.prefix || '';
       if (include(file.path, option.exlude, {
         root: file.base,
       })) {
@@ -23,7 +26,7 @@ export function amdHook(option: IAmdHook) {
         // console.log('ignore', file.path);
         callback(null, file);
       } else {
-        const parser = new Parser(file.contents, file.path, file.base);
+        const parser = new Parser(file.contents, file.path, baseUrl, prefix);
         parser.hook();
         file.contents = new Buffer(parser.getContent());
         callback(null, file);
@@ -35,6 +38,8 @@ export function amdHook(option: IAmdHook) {
 interface IAmdHook {
   /** 即项目根目录。用来配置模块查找根目录 */
   baseUrl?: string;
+  /** moduleID前缀 */
+  prefix?: string;
   cwd?: string;
   /** 不参与解析与调整的模块 */
   exlude?: string[];

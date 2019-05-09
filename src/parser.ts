@@ -15,7 +15,7 @@ import { parseBase } from './moduleID';
 export class Parser {
   private cwd: string;
   private ast;
-  constructor(private contents: Buffer, private filePath: string, private root: string) {
+  constructor(private contents: Buffer, private filePath: string, private root: string, private prefix: string) {
     this.cwd = dirname(filePath);
     this.parse();
   }
@@ -37,7 +37,7 @@ export class Parser {
 
             if (node.arguments[0].type === 'ArrayExpression') {
               node.arguments.unshift(
-                { type: 'Literal', value: parseBase(this.root, this.filePath)},
+                { type: 'Literal', value: parseBase(this.root, this.filePath, this.prefix)},
               );
             }
             const analyzer = new DependencyAnalyzer(
