@@ -51,7 +51,7 @@ gulp.task("doc:type", function() {
         module: "commonjs",
         target: "es2015",
         out: "docs/",
-        name: "gulp-amd-hook",
+        name: "gulp-amd-wrap",
         hideGenerator: true,
         version: false,
         theme: "minimal", // markdown | minimal | default

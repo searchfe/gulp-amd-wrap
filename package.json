@@ -1,7 +1,7 @@
 {
-  "name": "gulp-amd",
+  "name": "gulp-amd-wrap",
   "version": "0.0.4-1",
-  "discription": "gulp-amd-hook",
+  "discription": "gulp-amd-wrap",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
     "lint": "tslint src/**/*.ts test/**/*.ts",

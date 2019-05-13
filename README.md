@@ -1,22 +1,22 @@
-# gulp-amd-hook
+# gulp-amd-wrap
 ![Language](https://img.shields.io/badge/-TypeScript-blue.svg)
-[![Build Status](https://travis-ci.org/searchfe/gulp-amd-hook.svg?branch=master)](https://travis-ci.org/searchfe/gulp-amd-hook)
-[![Coveralls](https://img.shields.io/coveralls/searchfe/gulp-amd-hook.svg)](https://coveralls.io/github/searchfe/gulp-amd-hook)
-[![npm package](https://img.shields.io/npm/v/gulp-amd-hook.svg)](https://www.npmjs.org/package/gulp-amd-hook)
-[![npm downloads](http://img.shields.io/npm/dm/gulp-amd-hook.svg)](https://www.npmjs.org/package/gulp-amd-hook)
+[![Build Status](https://travis-ci.org/searchfe/gulp-amd-wrap.svg?branch=master)](https://travis-ci.org/searchfe/gulp-amd-wrap)
+[![Coveralls](https://img.shields.io/coveralls/searchfe/gulp-amd-wrap.svg)](https://coveralls.io/github/searchfe/gulp-amd-wrap)
+[![npm package](https://img.shields.io/npm/v/gulp-amd-wrap.svg)](https://www.npmjs.org/package/gulp-amd-wrap)
+[![npm downloads](http://img.shields.io/npm/dm/gulp-amd-wrap.svg)](https://www.npmjs.org/package/gulp-amd-wrap)
 
-gulp-amd-hook是一个分析amd模块，并进行预编译处理的的gulp插件，主要完成根据依赖分析及项目路径生成模块声明及引用的moduleID，并封装成amd规范的模块。
+gulp-amd-wrap是一个分析amd模块，并进行预编译处理的的gulp插件，主要完成根据依赖分析及项目路径生成模块声明及引用的moduleID，并封装成amd规范的模块。
 
 ## Install
 
 ```bash
-npm i gulp-amd-hook --save-dev
+npm i gulp-amd-wrap --save-dev
 ```
 
 ## Example
 
 ```Typescript
-import { amdHook } from 'gulp-amd-hook';
+import { amdHook } from 'gulp-amd-wrap';
 
 gulp.src(
   // 资源
@@ -25,8 +25,13 @@ gulp.src(
       base: __dirname,
     },
 ).pipe(amdHook({
+  baseUrl: '/assert/',
+  prefix: 'wiseindex/',
   // 不参与amd-hook分析的文件
-  exlude: ['/assert/exclude-**.js', '/dist/**'],
+  exlude: ['/exclude-**.js', '/dist/**'],
+  moduleID: {
+    'moduleID': 'filepath'
+  }
 })).pipe(
   gulp.dest(`${__dirname}\/dist\/`),
 );
@@ -75,4 +80,4 @@ define('assert/minify-define', [
 
 ## API
 
-[API DOC](https://searchfe.github.io/gulp-amd-hook/)
+[API DOC](https://searchfe.github.io/gulp-amd-wrap/)
