@@ -1,6 +1,6 @@
 {
   "name": "gulp-amd",
-  "version": "0.0.4-0",
+  "version": "0.0.4-1",
   "discription": "gulp-amd-hook",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
