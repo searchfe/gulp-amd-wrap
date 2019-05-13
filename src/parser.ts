@@ -22,6 +22,15 @@ export class Parser {
   public getContent() {
     return this.contents;
   }
+  public isHasObj(arr, val) {
+    let flag = false;
+    arr.forEach((element) => {
+      if (JSON.stringify(element).indexOf(JSON.stringify(val)) !== -1) {
+        flag = true;
+      }
+    });
+    return flag;
+  }
   public hook() {
     // console.log(this.contents.toString());
     traverse(this.ast, {
@@ -52,14 +61,16 @@ export class Parser {
                 // console.log('analyzer', dep, requireNode);
               },
             );
-            node.arguments[1].elements.push({type: 'Literal', value: 'require' });
-            node.arguments[2].params.push({type: 'Identifier', name: 'require' });
-
+            if (!this.isHasObj(node.arguments[1].elements, 'require')) {
+              node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
+            }
+            if (!this.isHasObj(node.arguments[2].params, 'require')) {
+              node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
+            }
             deps.forEach((dep) => {
               node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID });
               node.arguments[2].params.push({type: 'Identifier', name: dep.name });
             });
-            // console.log(node.arguments[2]);
           }
         }
         return node;
