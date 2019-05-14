@@ -11,4 +11,7 @@ script:
 after_success:
   - npm run coveralls
 deploy:
-  - npx semantic-release
+  provider: script
+  skip_cleanup: true
+  script:
+    - npx semantic-release
