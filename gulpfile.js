@@ -33,8 +33,6 @@ gulp.task('watch',function(){
   gulp.watch('./src/**/*', gulp.series('default'));
 });
 
-
-
 gulp.task("doc:ts", function() {
     return gulp.src(["src/**/*.ts"])
       .pipe(replace(/^[\s]*\*[\s]*\@example(?:(?!\*\/).|\n)*?^[\s]*\*\/$/mg, function(e){
