@@ -1,11 +1,11 @@
-const gulp = require("gulp");
+let gulp = require("gulp");
 const replace = require('gulp-replace');
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tscompile.json");
 const typedoc = require("gulp-typedoc");
 const del = require("del");
 const inline = require("gulp-inline-template");
-var base64 = require('gulp-base64-inline');
+const base64 = require('gulp-base64-inline');
 
 
 gulp.task("build:clean", function() {return del(["build/**", "dist/**"]);});
