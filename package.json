@@ -1,6 +1,6 @@
 {
   "name": "gulp-amd-wrap",
-  "version": "0.0.4",
+  "version": "0.0.0-development",
   "discription": "gulp-amd-wrap",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
@@ -14,13 +14,14 @@
     "url": "echo visit: http://127.0.0.1:8077/demo/?debug",
     "build": "gulp",
     "watch": "gulp watch & npm start",
-    "start": "npm run url && http-server ./ -c-1 -p 8077"
+    "start": "npm run url && http-server ./ -c-1 -p 8077",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+http://xxx.com/demo"
+    "url": "https://github.com/searchfe/gulp-amd-wrap"
   },
-  "homepage": "http://xxx.com/demo",
+  "homepage": "https://github.com/searchfe/gulp-amd-wrap",
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/ftp": "^0.3.29",
@@ -50,7 +51,8 @@
     "tslint": "^5.11.0",
     "typedoc": "^0.12.0",
     "typedoc-plugin-markdown": "^1.1.15",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "semantic-release": "^15.13.12"
   },
   "dependencies": {
     "ast-types": "^0.12.4",
