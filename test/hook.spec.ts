@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-05-20 16:40:32
+ * @Last Modified time: 2019-05-20 16:45:44
  */
 
 import { existsSync, readFileSync, unlinkSync } from 'fs';
@@ -11,7 +11,7 @@ import * as path from 'path';
 import { amdHook } from '../src/hook';
 
 describe('Hook Test', () => {
-  it('minify-define', () => {
+  it('minify define', () => {
     const file = `${__dirname}\/dist\/assert\/minify-define.js`;
     if (existsSync(file)) {
       unlinkSync(file);
