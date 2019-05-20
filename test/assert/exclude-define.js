@@ -13,6 +13,7 @@ define([], function() {
 
   require(['A', './B', '/C', '@D/E'], function(a, b, c, d){
     console.log(a, b, c, d);
+    return 5;
   });
 
   return fishObj;
