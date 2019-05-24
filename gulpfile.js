@@ -7,7 +7,6 @@ const del = require("del");
 const inline = require("gulp-inline-template");
 const base64 = require('gulp-base64-inline');
 
-
 gulp.task("build:clean", function() {return del(["build/**", "dist/**"]);});
 
 gulp.task("build:copy", function () {
