@@ -28,7 +28,7 @@ gulp.src(
   baseUrl: '/assert/',
   prefix: 'wiseindex/',
   // 不参与amd-hook分析的文件
-  exlude: ['/exclude-**.js', '/dist/**'],
+  exelude: ['/exclude-**.js', '/dist/**'],
   moduleID: {
     'moduleID': 'filepath'
   }
