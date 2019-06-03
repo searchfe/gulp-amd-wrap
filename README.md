@@ -16,7 +16,7 @@ npm i gulp-amd-wrap --save-dev
 ## Example
 
 ```Typescript
-import { amdHook } from 'gulp-amd-wrap';
+import { amdWrap } from 'gulp-amd-wrap';
 
 gulp.src(
   // 资源
@@ -24,7 +24,7 @@ gulp.src(
       // 工程baseUrl
       base: __dirname,
     },
-).pipe(amdHook({
+).pipe(amdWrap({
   baseUrl: '/assert/',
   prefix: 'wiseindex/',
   // 不参与amd-hook分析的文件

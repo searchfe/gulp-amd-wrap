@@ -2,13 +2,13 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-05-20 16:45:44
+ * @Last Modified time: 2019-06-03 20:45:14
  */
 
 import { existsSync, readFileSync, unlinkSync } from 'fs';
 import * as gulp from 'gulp';
 import * as path from 'path';
-import { amdHook } from '../src/hook';
+import { amdWrap } from '../src/hook';
 
 describe('Hook Test', () => {
   it('minify define', () => {
@@ -41,8 +41,8 @@ describe('Hook Test', () => {
           base: __dirname,
         },
       //  path.resolve(__dirname, 'assert/minify-define.js')
-      ).pipe(amdHook({
-        exlude: ['/assert/exclude-**.js', '/dist/**'],
+      ).pipe(amdWrap({
+        exclude: ['/assert/exclude-**.js', '/dist/**'],
       })).pipe(
         gulp.dest(`${__dirname}\/dist\/`),
       ).on('end',

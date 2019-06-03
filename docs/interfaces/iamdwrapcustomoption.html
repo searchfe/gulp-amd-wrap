@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IAmdHook | gulp-amd-wrap</title>
+	<title>IAmdWrapCustomOption | gulp-amd-wrap</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -918,28 +918,19 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="../classes/parser.html" class="tsd-kind-icon">Parser</a>
 		</li>
+		<li class=" tsd-kind-interface tsd-is-not-exported">
+			<a href="iamdwrap.html" class="tsd-kind-icon">IAmd<wbr>Wrap</a>
+		</li>
 		<li class="current tsd-kind-interface tsd-is-not-exported">
-			<a href="iamdhook.html" class="tsd-kind-icon">IAmd<wbr>Hook</a>
+			<a href="iamdwrapcustomoption.html" class="tsd-kind-icon">IAmd<wbr>Wrap<wbr>Custom<wbr>Option</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a href="iamdhook.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
+					<a href="iamdwrapcustomoption.html#moduleid" class="tsd-kind-icon">module<wbr>Id</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a href="iamdhook.html#cwd" class="tsd-kind-icon">cwd</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a href="iamdhook.html#exlude" class="tsd-kind-icon">exlude</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a href="iamdhook.html#exludeanalyze" class="tsd-kind-icon">exlude<wbr>Analyze</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a href="iamdhook.html#module" class="tsd-kind-icon">module</a>
+					<a href="iamdwrapcustomoption.html#path" class="tsd-kind-icon">path</a>
 				</li>
 			</ul>
-		</li>
-		<li class=" tsd-kind-interface tsd-is-not-exported">
-			<a href="iamdhookcustomoption.html" class="tsd-kind-icon">IAmd<wbr>Hook<wbr>Custom<wbr>Option</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
 			<a href="idependency.html" class="tsd-kind-icon">IDependency</a>
@@ -951,7 +942,7 @@ img { max-width: 100%; }
 			<a href="../globals.html#transform" class="tsd-kind-icon">Transform</a>
 		</li>
 		<li class=" tsd-kind-function">
-			<a href="../globals.html#amdhook" class="tsd-kind-icon">amd<wbr>Hook</a>
+			<a href="../globals.html#amdwrap" class="tsd-kind-icon">amd<wbr>Wrap</a>
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="../globals.html#filterlist" class="tsd-kind-icon">filter<wbr>List</a>
@@ -985,7 +976,7 @@ img { max-width: 100%; }
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">IAmdHook</span>
+					<span class="target">IAmdWrapCustomOption</span>
 				</li>
 			</ul>
 		</section>
@@ -996,11 +987,8 @@ img { max-width: 100%; }
 					<section class="tsd-index-section tsd-is-not-exported">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdhook.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdhook.html#cwd" class="tsd-kind-icon">cwd</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdhook.html#exlude" class="tsd-kind-icon">exlude</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdhook.html#exludeanalyze" class="tsd-kind-icon">exlude<wbr>Analyze</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdhook.html#module" class="tsd-kind-icon">module</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrapcustomoption.html#moduleid" class="tsd-kind-icon">module<wbr>Id</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrapcustomoption.html#path" class="tsd-kind-icon">path</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1009,72 +997,32 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-				<a name="baseurl" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> base<wbr>Url</h3>
-				<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<a name="moduleid" class="tsd-anchor"></a>
+				<h3>module<wbr>Id</h3>
+				<div class="tsd-signature tsd-kind-icon">module<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:37</li>
+						<li>Defined in hook.ts:55</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>即项目根目录。用来配置模块查找根目录</p>
+						<p>自定义moduleID</p>
 					</div>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-				<a name="cwd" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> cwd</h3>
-				<div class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<a name="path" class="tsd-anchor"></a>
+				<h3>path</h3>
+				<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:38</li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-				<a name="exlude" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> exlude</h3>
-				<div class="tsd-signature tsd-kind-icon">exlude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in hook.ts:40</li>
+						<li>Defined in hook.ts:57</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>不参与解析与调整的模块</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-				<a name="exludeanalyze" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> exlude<wbr>Analyze</h3>
-				<div class="tsd-signature tsd-kind-icon">exlude<wbr>Analyze<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in hook.ts:42</li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>不参与解析，只快速调整的模块</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-				<a name="module" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagOptional">Optional</span> module</h3>
-				<div class="tsd-signature tsd-kind-icon">module<span class="tsd-signature-symbol">:</span> <a href="iamdhookcustomoption.html" class="tsd-signature-type">IAmdHookCustomOption</a><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in hook.ts:44</li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>自定义moduleID模块</p>
+						<p>自定义module path</p>
 					</div>
 				</div>
 			</section>

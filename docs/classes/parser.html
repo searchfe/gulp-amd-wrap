@@ -927,13 +927,16 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="parser.html#hook" class="tsd-kind-icon">hook</a>
 				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="parser.html#ishasobj" class="tsd-kind-icon">is<wbr>Has<wbr>Obj</a>
+				</li>
 			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
-			<a href="../interfaces/iamdhook.html" class="tsd-kind-icon">IAmd<wbr>Hook</a>
+			<a href="../interfaces/iamdwrap.html" class="tsd-kind-icon">IAmd<wbr>Wrap</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
-			<a href="../interfaces/iamdhookcustomoption.html" class="tsd-kind-icon">IAmd<wbr>Hook<wbr>Custom<wbr>Option</a>
+			<a href="../interfaces/iamdwrapcustomoption.html" class="tsd-kind-icon">IAmd<wbr>Wrap<wbr>Custom<wbr>Option</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
 			<a href="../interfaces/idependency.html" class="tsd-kind-icon">IDependency</a>
@@ -945,7 +948,7 @@ img { max-width: 100%; }
 			<a href="../globals.html#transform" class="tsd-kind-icon">Transform</a>
 		</li>
 		<li class=" tsd-kind-function">
-			<a href="../globals.html#amdhook" class="tsd-kind-icon">amd<wbr>Hook</a>
+			<a href="../globals.html#amdwrap" class="tsd-kind-icon">amd<wbr>Wrap</a>
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="../globals.html#filterlist" class="tsd-kind-icon">filter<wbr>List</a>
@@ -998,6 +1001,7 @@ img { max-width: 100%; }
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="parser.html#getcontent" class="tsd-kind-icon">get<wbr>Content</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="parser.html#hook" class="tsd-kind-icon">hook</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="parser.html#ishasobj" class="tsd-kind-icon">is<wbr>Has<wbr>Obj</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1009,7 +1013,7 @@ img { max-width: 100%; }
 				<a name="constructor" class="tsd-anchor"></a>
 				<h3>constructor</h3>
 				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Parser<span class="tsd-signature-symbol">(</span>contents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, root<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parser.html" class="tsd-signature-type">Parser</a></li>
+					<li class="tsd-signature tsd-kind-icon">new <wbr>Parser<span class="tsd-signature-symbol">(</span>contents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, root<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parser.html" class="tsd-signature-type">Parser</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -1028,6 +1032,9 @@ img { max-width: 100%; }
 							</li>
 							<li>
 								<h5>root: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>prefix: <span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="parser.html" class="tsd-signature-type">Parser</a></h4>
@@ -1064,10 +1071,36 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser.ts:25</li>
+								<li>Defined in parser.ts:34</li>
 							</ul>
 						</aside>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="ishasobj" class="tsd-anchor"></a>
+				<h3>is<wbr>Has<wbr>Obj</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">is<wbr>Has<wbr>Obj<span class="tsd-signature-symbol">(</span>arr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in parser.ts:25</li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>arr: <span class="tsd-signature-type">any</span></h5>
+							</li>
+							<li>
+								<h5>val: <span class="tsd-signature-type">any</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 					</li>
 				</ul>
 			</section>
