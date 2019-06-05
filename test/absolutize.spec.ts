@@ -2,22 +2,23 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 17:26:59
+ * @Last Modified time: 2019-06-05 17:27:23
  */
 
 import { existsSync, readFileSync, unlinkSync } from 'fs';
 import * as gulp from 'gulp';
 import * as path from 'path';
-import { amdWrap } from '../src/hook';
+import { absolutize } from '../src/absolutize';
 
-describe('Hook Test', () => {
-  it('minify define', () => {
-    const file = `${__dirname}\/dist\/assert\/minify-define.js`;
+describe('Absolutize Test', () => {
+  it('Absolutize', () => {
+    const file = `${__dirname}\/dist\/assert-absolutize\/modulex.js`;
     if (existsSync(file)) {
       unlinkSync(file);
     }
 
     return new Promise((resolve) => {
+      let time = 0;
       function require() {
         expect(arguments[0]).toMatchObject([
           'A',
@@ -26,23 +27,32 @@ describe('Hook Test', () => {
           '@D/E',
         ]);
         expect(arguments[1].apply(this, arguments[0])).toBe(5);
-        resolve();
       }
       function define(moduleID, deps, func) {
-        expect(moduleID).toBe('assert/minify-define');
-        expect(deps).toMatchObject([
-          'require', '@scope/moduleA', 'assert/moduleB',
-        ]);
+        time ++;
+        switch (time) {
+          case 1:
+              expect(moduleID).toBe('assert-absolutize/modulex');
+              expect(deps).toMatchObject([
+                'require', '@scope/moduleA', 'assert/moduleB',
+              ]);
+              break;
+          case 2:
+              expect(moduleID).toBe('@scope/modulex');
+              expect(deps).toMatchObject(['assert-absolutize/modulex']);
+              resolve();
+              break;
+        }
         func(require, {}, {});
       }
 
       gulp.src(
-          `${__dirname}\/assert/*.js`, {
+          `${__dirname}\/assert-absolutize/*.js`, {
           base: __dirname,
         },
       //  path.resolve(__dirname, 'assert/minify-define.js')
-      ).pipe(amdWrap({
-        exclude: ['/assert/exclude-**.js', '/dist/**'],
+      ).pipe(absolutize({
+        'assert-absolutize/modulex': '@scope/modulex',
       })).pipe(
         gulp.dest(`${__dirname}\/dist\/`),
       ).on('end',
