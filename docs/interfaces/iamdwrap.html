@@ -918,9 +918,15 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class">
 			<a href="../classes/parser.html" class="tsd-kind-icon">Parser</a>
 		</li>
+		<li class=" tsd-kind-interface tsd-is-not-exported">
+			<a href="hookoption.html" class="tsd-kind-icon">Hook<wbr>Option</a>
+		</li>
 		<li class="current tsd-kind-interface tsd-is-not-exported">
 			<a href="iamdwrap.html" class="tsd-kind-icon">IAmd<wbr>Wrap</a>
 			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+					<a href="iamdwrap.html#anonymousmodule" class="tsd-kind-icon">anonymous<wbr>Module</a>
+				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 					<a href="iamdwrap.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
 				</li>
@@ -955,9 +961,6 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="../globals.html#amdwrap" class="tsd-kind-icon">amd<wbr>Wrap</a>
-		</li>
-		<li class=" tsd-kind-function">
-			<a href="../globals.html#filterlist" class="tsd-kind-icon">filter<wbr>List</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-not-exported">
 			<a href="../globals.html#getdependencyfromnode" class="tsd-kind-icon">get<wbr>Dependency<wbr>From<wbr>Node</a>
@@ -999,6 +1002,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section tsd-is-not-exported">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrap.html#anonymousmodule" class="tsd-kind-icon">anonymous<wbr>Module</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrap.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrap.html#cwd" class="tsd-kind-icon">cwd</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="iamdwrap.html#exclude" class="tsd-kind-icon">exclude</a></li>
@@ -1013,12 +1017,27 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<a name="anonymousmodule" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> anonymous<wbr>Module</h3>
+				<div class="tsd-signature tsd-kind-icon">anonymous<wbr>Module<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in hook.ts:51</li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>不参与生成moduleId的模块</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
 				<a name="baseurl" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagOptional">Optional</span> base<wbr>Url</h3>
 				<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:41</li>
+						<li>Defined in hook.ts:40</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1033,7 +1052,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:44</li>
+						<li>Defined in hook.ts:43</li>
 					</ul>
 				</aside>
 			</section>
@@ -1043,7 +1062,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">exclude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:46</li>
+						<li>Defined in hook.ts:45</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1058,7 +1077,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">exlude<wbr>Analyze<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:48</li>
+						<li>Defined in hook.ts:47</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1073,7 +1092,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">module<span class="tsd-signature-symbol">:</span> <a href="iamdwrapcustomoption.html" class="tsd-signature-type">IAmdWrapCustomOption</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:50</li>
+						<li>Defined in hook.ts:49</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1088,7 +1107,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in hook.ts:43</li>
+						<li>Defined in hook.ts:42</li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 17:29:32
+ * @Last Modified time: 2019-06-05 10:45:51
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -31,19 +31,20 @@ export class Parser {
     });
     return flag;
   }
-  public hook() {
+  public hook(hookOption: HookOption = {}) {
     // console.log(this.contents.toString());
     traverse(this.ast, {
       enter: (node) => {
         if (node.type === 'CallExpression') {
+          // 如果是define
           if (node.callee && node.callee.name === 'define') {
-
+            // 首参数是function，推入依赖数组
             if (node.arguments[0].type === 'FunctionExpression') {
               node.arguments.unshift(
                 { type: 'ArrayExpression', elements: []},
               );
             }
-
+            // 首参数是依赖数组，推入moduleId
             if (node.arguments[0].type === 'ArrayExpression') {
               node.arguments.unshift(
                 { type: 'Literal', value: parseBase(this.root, this.filePath, this.prefix)},
@@ -71,6 +72,9 @@ export class Parser {
               node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID });
               node.arguments[2].params.push({type: 'Identifier', name: dep.name });
             });
+            if (hookOption.removeModuleId) {
+              node.arguments.shift();
+            }
           }
         }
         return node;
@@ -105,4 +109,8 @@ export class Parser {
    * define('XXX', [...], function() {});
    */
 
+}
+
+interface HookOption {
+  removeModuleId?: boolean;
 }

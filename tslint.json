@@ -36,5 +36,8 @@
       // "ban-types": false,
       // "radix": false
   },
+  "linterOptions": {
+    "typeCheck": true
+  },
   "rulesDirectory": []
 }
