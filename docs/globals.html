@@ -919,6 +919,9 @@ img { max-width: 100%; }
 			<a href="classes/parser.html" class="tsd-kind-icon">Parser</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
+			<a href="interfaces/hookoption.html" class="tsd-kind-icon">Hook<wbr>Option</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-is-not-exported">
 			<a href="interfaces/iamdwrap.html" class="tsd-kind-icon">IAmd<wbr>Wrap</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-not-exported">
@@ -935,9 +938,6 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="globals.html#amdwrap" class="tsd-kind-icon">amd<wbr>Wrap</a>
-		</li>
-		<li class=" tsd-kind-function">
-			<a href="globals.html#filterlist" class="tsd-kind-icon">filter<wbr>List</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-not-exported">
 			<a href="globals.html#getdependencyfromnode" class="tsd-kind-icon">get<wbr>Dependency<wbr>From<wbr>Node</a>
@@ -1050,6 +1050,7 @@ define(<span class="hljs-string">'assert/minify-define'</span>, [
 					<section class="tsd-index-section tsd-is-not-exported">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/hookoption.html" class="tsd-kind-icon">Hook<wbr>Option</a></li>
 							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/iamdwrap.html" class="tsd-kind-icon">IAmd<wbr>Wrap</a></li>
 							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/iamdwrapcustomoption.html" class="tsd-kind-icon">IAmd<wbr>Wrap<wbr>Custom<wbr>Option</a></li>
 							<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/idependency.html" class="tsd-kind-icon">IDependency</a></li>
@@ -1071,7 +1072,6 @@ define(<span class="hljs-string">'assert/minify-define'</span>, [
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-function"><a href="globals.html#amdwrap" class="tsd-kind-icon">amd<wbr>Wrap</a></li>
-							<li class="tsd-kind-function"><a href="globals.html#filterlist" class="tsd-kind-icon">filter<wbr>List</a></li>
 							<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#getdependencyfromnode" class="tsd-kind-icon">get<wbr>Dependency<wbr>From<wbr>Node</a></li>
 							<li class="tsd-kind-function tsd-is-not-exported"><a href="globals.html#hasrequiredeclarations" class="tsd-kind-icon">has<wbr>Require<wbr>Declarations</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#include" class="tsd-kind-icon">include</a></li>
@@ -1162,37 +1162,6 @@ define(<span class="hljs-string">'assert/minify-define'</span>, [
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel tsd-member tsd-kind-function">
-				<a name="filterlist" class="tsd-anchor"></a>
-				<h3>filter<wbr>List</h3>
-				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">filter<wbr>List<span class="tsd-signature-symbol">(</span>patterns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">IOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in filter.ts:28</li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>根据glob配置筛选符合的list</p>
-							</div>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> patterns: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> option: <span class="tsd-signature-type">IOptions</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-not-exported">
 				<a name="getdependencyfromnode" class="tsd-anchor"></a>
 				<h3>get<wbr>Dependency<wbr>From<wbr>Node</h3>
@@ -1256,7 +1225,7 @@ define(<span class="hljs-string">'assert/minify-define'</span>, [
 				<a name="include" class="tsd-anchor"></a>
 				<h3>include</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">include<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, option<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">IOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					<li class="tsd-signature tsd-kind-icon">include<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -1279,7 +1248,7 @@ define(<span class="hljs-string">'assert/minify-define'</span>, [
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> patterns: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> option: <span class="tsd-signature-type">IOptions</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> baseUrl: <span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
