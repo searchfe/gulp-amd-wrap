@@ -4,6 +4,7 @@
 [![Coveralls](https://img.shields.io/coveralls/searchfe/gulp-amd-wrap.svg)](https://coveralls.io/github/searchfe/gulp-amd-wrap)
 [![npm package](https://img.shields.io/npm/v/gulp-amd-wrap.svg)](https://www.npmjs.org/package/gulp-amd-wrap)
 [![npm downloads](http://img.shields.io/npm/dm/gulp-amd-wrap.svg)](https://www.npmjs.org/package/gulp-amd-wrap)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 gulp-amd-wrap是一个分析amd模块，并进行预编译处理的的gulp插件，主要完成根据依赖分析及项目路径生成模块声明及引用的moduleID，并封装成amd规范的模块。
 
