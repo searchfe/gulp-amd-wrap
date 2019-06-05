@@ -79,6 +79,7 @@ define('assert/minify-define', [
 
 ```
 
+
 ## API
 
 [API DOC](https://searchfe.github.io/gulp-amd-wrap/)
