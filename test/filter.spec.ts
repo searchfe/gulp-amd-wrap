@@ -5,19 +5,16 @@ describe('Filter Test', () => {
   it('include test', () => {
     const rs = include(
       resolve(__dirname, './assert/exclude-define.js'),
-      ['*.js'], {
-      cwd: resolve(__dirname, './assert'),
-    });
+      ['*.js'],
+      resolve(__dirname, './assert'));
     expect(rs).toBe(true);
   });
 
   it('include test', () => {
     const rs = include(
       'exclude-define.js',
-      ['*.js'], {
-      cwd: resolve(__dirname, './assert'),
-    });
+      ['*.js'],
+    );
     expect(rs).toBe(true);
   });
-
 });

@@ -2,40 +2,26 @@
  * @Author: qiansc
  * @Date: 2019-04-25 17:28:25
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-03 20:42:21
+ * @Last Modified time: 2019-06-05 10:29:53
  */
-import { IOptions, sync } from 'glob';
+import * as minimatch from 'minimatch';
 import { resolve } from 'path';
 
 /**
  * 判断文件filePath是否在规则覆盖范围内
  */
-export function include(filePath: string, patterns?: string[], option?: IOptions): boolean {
-  const list = filterList(patterns, option);
-  if (option && option.cwd) {
-    filePath = resolve(option.cwd, filePath);
+export function include(filePath: string, patterns?: string[], baseUrl?: string): boolean {
+  if (patterns === undefined) {
+    return false;
   }
-  console.log('patterns', patterns);
-  console.log('option', option);
-  console.log('list', list);
-  console.log('filePath', filePath);
-  return list.indexOf(filePath) > -1;
-}
-
-/**
- * 根据glob配置筛选符合的list
- */
-export function filterList(patterns?: string[], option?: IOptions): string[] {
-  let list: string[] = [];
-  if (patterns) {
-    for (const pattern of patterns) {
-      list = list.concat(sync(pattern, option));
+  for (const pattern of patterns) {
+    let condition = pattern;
+    if (baseUrl) {
+      condition = resolve(baseUrl, pattern);
+    }
+    if (minimatch(filePath, condition)) {
+      return true;
     }
   }
-  if (option && option.cwd) {
-    list.forEach((item, index) => {
-      list[index] = resolve(option.cwd as string, item);
-    });
-  }
-  return list;
+  return false;
 }
