@@ -1,3 +1,11 @@
+## [1.0.6](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.5...v1.0.6) (2019-07-04)
+
+
+### Bug Fixes
+
+* add callexpression require ([2420ce9](https://github.com/searchfe/gulp-amd-wrap/commit/2420ce9))
+* add callexpression require ([fd8b55a](https://github.com/searchfe/gulp-amd-wrap/commit/fd8b55a))
+
 ## [1.0.5](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.4...v1.0.5) (2019-06-05)
 
 
