@@ -40,7 +40,7 @@ export class Parser {
           if (node.callee && node.callee.name === 'define') {
             // 首参数是function，推入依赖数组
             if (node.arguments[0].type === 'FunctionExpression') {
-              const ele = node.arguments[0].params.map(item => ({type: 'Literal', value: item.name }));
+              const ele = node.arguments[0].params.map((item) => ({type: 'Literal', value: item.name }));
               node.arguments.unshift(
                 { type: 'ArrayExpression', elements: ele},
               );
@@ -72,7 +72,9 @@ export class Parser {
             deps.forEach((dep) => {
               if (node.arguments[1].elements.map( (e) => e.value).indexOf(dep.moduleID) < 0) {
                 node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID });
-                dep.name ? node.arguments[2].params.push({type: 'Identifier', name: dep.name }) : '';
+                if (dep.name) {
+                  node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
+                }
               }
             });
             if (hookOption.removeModuleId) {
