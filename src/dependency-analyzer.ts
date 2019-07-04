@@ -58,12 +58,14 @@ interface IDependency {
 
 type analysisCallback = (dep: IDependency, node: any, parent: any) => any;
 
-/** 判断当前node节点为require VariableDeclarator */
+/** 判断当前node节点为require VariableDeclarator 以及 require Literal */
 function matchRequireVariableDeclarator(node) {
   return !!(
-    node.type === 'VariableDeclarator' &&  node.id && node.id.name !== undefined &&
+    (node.type === 'VariableDeclarator' &&  node.id && node.id.name !== undefined &&
     node.init && node.init.callee !== undefined && node.init.callee.name === 'require' &&
-    node.init.arguments && node.init.arguments[0] && node.init.arguments[0].value !== undefined
+    node.init.arguments && node.init.arguments[0] && node.init.arguments[0].value !== undefined) ||
+    (node.type === 'CallExpression' && node.arguments[0] && node.arguments[0].type === 'Literal' &&
+    node.callee && node.callee.name === 'require')
   );
 }
 /** 判断当前node节点是否包含require VariableDeclarator 返回去除后正常的declarations */
@@ -94,9 +96,9 @@ function hasRequireDeclarations(node) {
 /** 从 require VariableDeclarator 节点获取依赖信息 */
 function getDependencyFromNode(node): IDependency {
   return {
-    moduleID: node.init.arguments[0].value,
-    name: node.id.name,
-    value: node.init.arguments[0].value,
+    moduleID: node.init ? node.init.arguments[0].value : node.arguments[0].value,
+    name: node.id ? node.id.name : '',
+    value: node.init ? node.init.arguments[0].value : node.arguments[0].value,
   };
 }
 

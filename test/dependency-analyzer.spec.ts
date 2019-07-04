@@ -14,6 +14,9 @@ var A = require('A');
 var B = require('./B');
 var C = require('/C');
 var D = require('@D/E');
+var E = {
+  'aa': require('AA')
+};
 `;
 
 /**
@@ -34,8 +37,19 @@ console.log(da.analysis());
  * [{"type":"ExpressionStatement","expression":{"type":"CallExpression","callee":{"type":"Identifier",
  * "name":"require"},"arguments":[{"type":"Literal","value":"A","raw":"'A'"}]}}]
  */
-describe('Test is comming soon', () => {
-  it('one', () => {
-  // do nothing
+describe('dependency-analyzer test', () => {
+  it('get A module', () => {
+    expect(da.analysis()).toContainEqual({
+      moduleID: 'A',
+      name: 'A',
+      value: 'A',
+    });
+  });
+  it('get E module', () => {
+    expect(da.analysis()).toContainEqual({
+      moduleID: 'AA',
+      name: '',
+      value: 'AA',
+    });
   });
 });
