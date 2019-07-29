@@ -63,10 +63,10 @@ export class Parser {
                 // console.log('analyzer', dep, requireNode);
               },
             );
-            if (!this.isHasObj(node.arguments[1].elements, 'require')) {
+            if (node.arguments[1] && !this.isHasObj(node.arguments[1].elements, 'require')) {
               node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
             }
-            if (!this.isHasObj(node.arguments[2].params, 'require')) {
+            if (node.arguments[2] && !this.isHasObj(node.arguments[2].params, 'require')) {
               node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
             }
             deps.forEach((dep) => {
