@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-09 00:57:20
+ * @Last Modified time: 2019-08-15 10:20:37
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -86,8 +86,6 @@ export class Parser {
             if (node.arguments[1].elements) {
               node.arguments[1].elements.forEach((element, index) => {
                 let valueString = element.value;
-            //     //{ type: 'Literal', value: 'require' }
-            //     // parseBase(this.root, this.filePath, this.prefix) + md5Value + '_liang002'
                 /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
                 var depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
                 if (existsSync(depPath)) {
@@ -107,7 +105,6 @@ export class Parser {
             }
             deps.forEach((dep) => {
               if (node.arguments[1].elements.map((e) => e.value).indexOf(dep.moduleID) < 0) {
-                // todo 这里需要加md5 blame liangjiaying
                 node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID});
                 if (dep.name) {
                   node.arguments[2].params.push({ type: 'Identifier', name: dep.name});
