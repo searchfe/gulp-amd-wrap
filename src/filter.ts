@@ -1,8 +1,8 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-25 17:28:25
- * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 10:29:53
+ * @Last Modified by: liangjiaying@baidu.com
+ * @Last Modified time: 2019-08-08 17:25:49
  */
 import * as minimatch from 'minimatch';
 import { resolve } from 'path';

@@ -1,16 +1,19 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
- * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 10:45:51
+ * @Last Modified by: liangjiaying@baidu.com
+ * @Last Modified time: 2019-08-09 00:57:20
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
 import { traverse } from 'estraverse';
-import { dirname } from 'path';
 import { AsyncAnalyzer } from './async-analyzer';
 import { DependencyAnalyzer } from './dependency-analyzer';
-import { parseBase } from './moduleID';
+import { parseBase, parseAbsolute } from './moduleID';
+import { include } from './filter';
+import { resolve, dirname } from 'path';
+import {existsSync} from 'fs';
+const md5File = require('md5-file')
 
 export class Parser {
   private cwd: string;
@@ -32,6 +35,20 @@ export class Parser {
     return flag;
   }
   public hook(hookOption: HookOption = {}) {
+    /** 生成的ModuleId md5后缀来避免其他模块引用 @molecule/toptip2_134dfas */
+    let md5Value:string = '';
+    if (hookOption.useMd5 === true || hookOption.useMd5 && hookOption.useMd5.useMd5) {
+      let exlude = hookOption.useMd5.exlude; // 要被排除的文件
+
+      if (!include(resolve(this.filePath), exlude, this.root)) {
+        // 不在md5排除名单中
+        try {
+          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts'));
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
     // console.log(this.contents.toString());
     traverse(this.ast, {
       enter: (node) => {
@@ -45,12 +62,13 @@ export class Parser {
                 { type: 'ArrayExpression', elements: ele},
               );
             }
-            // 首参数是依赖数组，推入moduleId
+            // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
             if (node.arguments[0].type === 'ArrayExpression') {
               node.arguments.unshift(
-                { type: 'Literal', value: parseBase(this.root, this.filePath, this.prefix)},
+                { type: 'Literal', value: parseBase(this.root, this.filePath, this.prefix) + md5Value},
               );
             }
+
             const analyzer = new DependencyAnalyzer(
               this.cwd,
               node,
@@ -63,6 +81,24 @@ export class Parser {
                 // console.log('analyzer', dep, requireNode);
               },
             );
+
+            // 第二参数是依赖数组 => define("", ['require', 'exports', 'md5-file'])
+            if (node.arguments[1].elements) {
+              node.arguments[1].elements.forEach((element, index) => {
+                let valueString = element.value;
+            //     //{ type: 'Literal', value: 'require' }
+            //     // parseBase(this.root, this.filePath, this.prefix) + md5Value + '_liang002'
+                /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
+                var depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
+                if (existsSync(depPath)) {
+                  let md5 = '_' + md5File.sync(depPath);
+                  // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
+                  let moduleid = parseBase(this.root, depPath, this.prefix) + md5;
+                  node.arguments[1].elements[index].value = moduleid ;
+                }
+              });
+            }
+
             if (node.arguments[1] && !this.isHasObj(node.arguments[1].elements, 'require')) {
               node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
             }
@@ -70,10 +106,11 @@ export class Parser {
               node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
             }
             deps.forEach((dep) => {
-              if (node.arguments[1].elements.map( (e) => e.value).indexOf(dep.moduleID) < 0) {
-                node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID });
+              if (node.arguments[1].elements.map((e) => e.value).indexOf(dep.moduleID) < 0) {
+                // todo 这里需要加md5 blame liangjiaying
+                node.arguments[1].elements.push({type: 'Literal', value: dep.moduleID});
                 if (dep.name) {
-                  node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
+                  node.arguments[2].params.push({ type: 'Identifier', name: dep.name});
                 }
               }
             });
@@ -88,7 +125,7 @@ export class Parser {
         const aa = new AsyncAnalyzer(
           this.cwd,
           node,
-          this.root,
+          this.root
         );
         aa.analysis();
       },
@@ -118,4 +155,5 @@ export class Parser {
 
 interface HookOption {
   removeModuleId?: boolean;
+  useMd5?: any;
 }
