@@ -38,23 +38,6 @@ export function addRequireConfig(option: optionType) {
         }
     })
 }
-// 遍历目录，找到所有文件。
-function walk(dir:string) {
-    let results : string[] = [];
-    let list = readdirSync(dir);
-    list.forEach(function(item) {
-        item = dir + '/' + item;
-        var stat = statSync(item);
-        if (stat && stat.isDirectory()) {
-            /* Recurse into a subdirectory */
-            results = results.concat(walk(item));
-        } else {
-        /* Is a file */
-            results.push(item);
-        }
-    });
-    return results;
-}
 interface optionType {
     mainJs?: string,
     /** 线上部署地址 如/se/static/molecules/toptip/ */
