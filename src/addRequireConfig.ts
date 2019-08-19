@@ -30,10 +30,8 @@ export function addRequireConfig(option: optionType) {
         // 将pathConfig对象中的moduleId打印成config文件，塞入主文件main.js
         flush(callback) {
             let finalConfig = 'require.config({paths:' + JSON.stringify(pathConfig) + '});\n';
-            console.log('finalConfig: ', finalConfig);
             mainFile.contents = new Buffer(finalConfig + mainFile.contents.toString());
             this.push(mainFile);
-            console.log(this.length);
             callback();
         }
     })

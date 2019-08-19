@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-15 10:20:37
+ * @Last Modified time: 2019-08-19 10:49:24
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -43,7 +43,7 @@ export class Parser {
       if (!include(resolve(this.filePath), exlude, this.root)) {
         // 不在md5排除名单中
         try {
-          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts'));
+          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts')).slice(0,7);
         } catch (e) {
           console.log(e);
         }
@@ -89,7 +89,7 @@ export class Parser {
                 /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
                 var depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
                 if (existsSync(depPath)) {
-                  let md5 = '_' + md5File.sync(depPath);
+                  let md5 = '_' + md5File.sync(depPath).slice(0,7);
                   // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
                   let moduleid = parseBase(this.root, depPath, this.prefix) + md5;
                   node.arguments[1].elements[index].value = moduleid ;
