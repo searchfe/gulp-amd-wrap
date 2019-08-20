@@ -2,14 +2,13 @@
  * @Author: qiansc
  * @Date: 2019-04-23 11:17:36
  * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-08 19:31:07
+ * @Last Modified time: 2019-08-20 15:53:34
  */
 import { File } from 'gulp-util';
-import stream = require('readable-stream');
-
 import { include } from './filter';
+import { parseAbsolute, parseBase } from './moduleID';
 import { Parser } from './parser';
-import { parseBase, parseAbsolute } from './moduleID';
+import stream = require('readable-stream');
 
 const Transform = stream.Transform;
 
@@ -30,7 +29,7 @@ export function amdWrap(option: IAmdWrap) {
         const parser = new Parser(file.contents, file.path, baseUrl, prefix);
         parser.hook({
           removeModuleId: include(file.path, option.anonymousModule, option.baseUrl),
-          useMd5: useMd5
+          useMd5,
         });
         file.contents = new Buffer(parser.getContent());
         callback(null, file);

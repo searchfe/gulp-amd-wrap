@@ -2,18 +2,19 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-19 10:49:24
+ * @Last Modified time: 2019-08-20 15:53:56
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
 import { traverse } from 'estraverse';
+import { existsSync } from 'fs';
+import { dirname, resolve } from 'path';
 import { AsyncAnalyzer } from './async-analyzer';
 import { DependencyAnalyzer } from './dependency-analyzer';
-import { parseBase, parseAbsolute } from './moduleID';
 import { include } from './filter';
-import { resolve, dirname } from 'path';
-import {existsSync} from 'fs';
-const md5File = require('md5-file')
+import { parseAbsolute, parseBase } from './moduleID';
+
+const md5File = require('md5-file');
 
 export class Parser {
   private cwd: string;
@@ -36,14 +37,15 @@ export class Parser {
   }
   public hook(hookOption: HookOption = {}) {
     /** 生成的ModuleId md5后缀来避免其他模块引用 @molecule/toptip2_134dfas */
-    let md5Value:string = '';
+    let md5Value: string = '';
+
     if (hookOption.useMd5 === true || hookOption.useMd5 && hookOption.useMd5.useMd5) {
-      let exlude = hookOption.useMd5.exlude; // 要被排除的文件
+      const exlude = hookOption.useMd5.exlude; // 要被排除的文件
 
       if (!include(resolve(this.filePath), exlude, this.root)) {
         // 不在md5排除名单中
         try {
-          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts')).slice(0,7);
+          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts')).slice(0, 7);
         } catch (e) {
           console.log(e);
         }
@@ -85,13 +87,13 @@ export class Parser {
             // 第二参数是依赖数组 => define("", ['require', 'exports', 'md5-file'])
             if (node.arguments[1].elements) {
               node.arguments[1].elements.forEach((element, index) => {
-                let valueString = element.value;
+                const valueString = element.value;
                 /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
-                var depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
-                if (existsSync(depPath)) {
-                  let md5 = '_' + md5File.sync(depPath).slice(0,7);
+                const depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
+                if ( existsSync(depPath) ) {
+                  const md5 = '_' + md5File.sync(depPath).slice(0, 7);
                   // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
-                  let moduleid = parseBase(this.root, depPath, this.prefix) + md5;
+                  const moduleid = parseBase(this.root, depPath, this.prefix) + md5;
                   node.arguments[1].elements[index].value = moduleid ;
                 }
               });
@@ -122,7 +124,7 @@ export class Parser {
         const aa = new AsyncAnalyzer(
           this.cwd,
           node,
-          this.root
+          this.root,
         );
         aa.analysis();
       },

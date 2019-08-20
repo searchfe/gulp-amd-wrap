@@ -1,8 +1,8 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-27 14:21:32
- * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 16:55:34
+ * @Last Modified by: liangjiaying@baidu.com
+ * @Last Modified time: 2019-08-20 15:29:21
  */
 import { traverse, VisitorOption } from 'estraverse';
 import * as moduleID from './moduleID';
