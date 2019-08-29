@@ -18,8 +18,8 @@ export function addRequireConfig(option: OptionType) {
                 const moduleId = touchModuleId && touchModuleId[1];
                 const relativePath = relative(option.sourceDir, file.path);
                 if (moduleId) {
-                    // {'@molecule/a/xxx': '/se/static/molecules/a/b/xx}
-                    pathConfig[moduleId] = resolve(option.deloyDir, relativePath).replace(/.js$/, '');
+                    // {'@molecule/a/xxx': '//m.baidu.com/se/static/molecules/a/b/xx}
+                    pathConfig[moduleId] = option.deloyDir + relativePath.replace(/.js$/, '');
                 }
             } else {
                 mainFile = file;
