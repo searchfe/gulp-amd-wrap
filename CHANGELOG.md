@@ -1,3 +1,11 @@
+## [1.0.10](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.9...v1.0.10) (2019-09-19)
+
+
+### Bug Fixes
+
+* support require dynamic module ([e5836ac](https://github.com/searchfe/gulp-amd-wrap/commit/e5836ac))
+* support require dynamic module ([ac4eb0c](https://github.com/searchfe/gulp-amd-wrap/commit/ac4eb0c))
+
 ## [1.0.9](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.8...v1.0.9) (2019-09-19)
 
 
@@ -39,4 +47,3 @@
 ### Bug Fixes
 
 * fix semantic config bug ([fb75b9e](https://github.com/searchfe/gulp-amd-wrap/commit/fb75b9e))
-
