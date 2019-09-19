@@ -24,9 +24,12 @@ export class AsyncAnalyzer {
       enter: (node, parent) => {
         if (matchAsyncRequireCallExpression(node)) {
           node.arguments[0].elements.forEach((element, index) => {
-            element.value = moduleID.parseBase(
-              this.baseUrl || this.cwd, moduleID.parseAbsolute(this.cwd, element.value));
-            delete element.raw;
+            /** 如果是动态require就不会有value require(mod) */
+            if (element.value) {
+              element.value = moduleID.parseBase(
+                this.baseUrl || this.cwd, moduleID.parseAbsolute(this.cwd, element.value));
+              delete element.raw;
+            }
           });
         }
       },
