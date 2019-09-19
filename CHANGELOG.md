@@ -1,6 +1,5 @@
 ## [1.0.7](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.6...v1.0.7) (2019-07-29)
 
-
 ### Bug Fixes
 
 * no elements in parser ([46823b3](https://github.com/searchfe/gulp-amd-wrap/commit/46823b3))
