@@ -32,4 +32,3 @@
 ### Bug Fixes
 
 * fix semantic config bug ([fb75b9e](https://github.com/searchfe/gulp-amd-wrap/commit/fb75b9e))
-
