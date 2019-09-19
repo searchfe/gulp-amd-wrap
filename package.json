@@ -1,6 +1,6 @@
 {
   "name": "gulp-amd-wrap",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "discription": "gulp-amd-wrap",
   "scripts": {
     "preversion": "npm run lint && npm run cover",
