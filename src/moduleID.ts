@@ -4,8 +4,7 @@
  * @Last Modified by: qiansc
  * @Last Modified time: 2019-06-05 10:45:24
  */
-import { resolve } from 'path';
-
+import { extname, resolve } from 'path';
 /** 将相对路径转化为绝对路径 ./A ../ */
 export function parseAbsolute(
   /** 当前路径 */
@@ -23,13 +22,30 @@ export function parseAbsolute(
 export function parseBase(
   /** 当前路径 */
   baseUrl: string,
-  /** 分析的ast node,因为ast库没有支持ts,所以ast类型为any */
-  moduleID: string,
+  /** 文件路径 */
+  filePath: string,
   /** moduleID前缀 */
   prefix?: string,
-): string {
-  if (moduleID.match(/^\//) !== null && moduleID.indexOf(baseUrl) === 0 ) {
-    return (prefix ? prefix + '/' : '') + moduleID.substring(baseUrl.length + 1).replace(/(\.js|\.ts)$/, '');
+  /** 自定义moduleId */
+  moduleID?: string): string {
+  if (extname(filePath) === '.json') {
+    return parseJsonBase(baseUrl, filePath);
   }
-  return (prefix ? prefix + '/' : '') + moduleID.replace(/(\.js|\.ts)$/, '');
+  if (moduleID) {
+    return (prefix ? prefix + '/' : '') + moduleID;
+  }
+  if (filePath.match(/^\//) !== null && filePath.indexOf(baseUrl) === 0 ) {
+    return (prefix ? prefix + '/' : '') + filePath.substring(baseUrl.length + 1).replace(/(\.js|\.ts)$/, '');
+  }
+  return (prefix ? prefix + '/' : '') + filePath.replace(/(\.js|\.ts)$/, '');
+}
+export function parseJsonBase(
+   /** 当前路径 */
+   baseUrl: string,
+   /** 文件路径 */
+   filePath: string): string {
+  if (filePath.indexOf(baseUrl) === 0) {
+    return filePath.substring(baseUrl.length + 1);
+  }
+  return filePath;
 }

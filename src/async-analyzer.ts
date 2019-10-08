@@ -43,7 +43,7 @@ function matchAsyncRequireCallExpression(node) {
     node.type === 'CallExpression' &&
     node.callee !== undefined && node.callee.name === 'require' &&
     node.arguments && node.arguments[0] && node.arguments[0].type === 'ArrayExpression' &&
-    node.arguments[0].elements
+    node.arguments[0].elements && node.arguments[0].elements.value
   );
 }
   /**
