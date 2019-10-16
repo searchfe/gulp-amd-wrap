@@ -28,7 +28,7 @@ describe('Parser Spec Test', () => {
       function define(moduleID, deps, func) {
         expect(moduleID).toBe('molecule/assert/minify-define');
         expect(deps).toMatchObject([
-          'require', '@scope/moduleA', 'assert/moduleB',
+          'require', '@scope/moduleA', 'molecule/assert/moduleB',
         ]);
         func(require, {}, {});
       }
@@ -39,12 +39,12 @@ describe('Parser Spec Test', () => {
   });
 
   it('un-moduleId-define', () => {
-    const parser = new Parser(content, filePath, root, prefix);
+    const parser = new Parser(content, filePath, root, '');
     parser.hook({
       removeModuleId: true,
     });
     const code = parser.getContent().toString();
-
+    console.log(code);
     return new Promise((resolve) => {
       function require() {
         expect(arguments[0]).toMatchObject([

@@ -28,7 +28,7 @@ export function absolutize(option: AbsolutizeOption) {
           });
         }
         if (found) {
-          file.contents = new Buffer(
+          file.contents =  Buffer.from(
             file.contents.toString() +
             `\ndefine('${moduleId}', ['${origin}'], function(mod) {return mod; });`);
         }
