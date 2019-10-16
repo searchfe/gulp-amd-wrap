@@ -65,6 +65,34 @@ describe('Parser Spec Test', () => {
       // tslint:disable-next-line:no-eval
       eval(code);
     });
-  // do nothing
   });
+
+  // it('minify-define', () => {
+  //   const parser = new Parser(content, filePath, root, prefix);
+  //   parser.hook();
+  //   const code = parser.getContent().toString();
+
+  //   return new Promise((resolve) => {
+  //     function require() {
+  //       expect(arguments[0]).toMatchObject([
+  //         'A',
+  //         'assert/B',
+  //         '/C',
+  //         '@D/E',
+  //       ]);
+  //       expect(arguments[1].apply(this, arguments[0])).toBe(5);
+  //       resolve();
+  //     }
+  //     function define(moduleID, deps, func) {
+  //       expect(moduleID).toBe('molecule/assert/minify-define');
+  //       expect(deps).toMatchObject([
+  //         'require', '@scope/moduleA', 'assert/moduleB',
+  //       ]);
+  //       func(require, {}, {});
+  //     }
+  //     // tslint:disable-next-line:no-eval
+  //     eval(code);
+  //   });
+  // // do nothing
+  // });
 });
