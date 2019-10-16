@@ -1,16 +1,19 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
- * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 10:45:51
+ * @Last Modified by: liangjiaying@baidu.com
+ * @Last Modified time: 2019-08-20 15:53:56
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
 import { traverse } from 'estraverse';
-import { basename, dirname, extname } from 'path';
+import { existsSync } from 'fs';
 import { AsyncAnalyzer } from './async-analyzer';
 import { DependencyAnalyzer } from './dependency-analyzer';
+import { include } from './filter';
 import { parseAbsolute, parseBase } from './moduleID';
+import { basename, dirname, extname, resolve } from 'path';
+const md5File = require('md5-file');
 
 export class Parser {
   private cwd: string;
@@ -48,6 +51,21 @@ export class Parser {
     return flag;
   }
   public hook(hookOption: HookOption = {}) {
+    /** 生成的ModuleId md5后缀来避免其他模块引用 @molecule/toptip2_134dfas */
+    let md5Value: string = '';
+
+    if (hookOption.useMd5 === true || hookOption.useMd5 && hookOption.useMd5.useMd5) {
+      const exlude = hookOption.useMd5.exlude; // 要被排除的文件
+
+      if (!include(resolve(this.filePath), exlude, this.root)) {
+        // 不在md5排除名单中
+        try {
+          md5Value = '_' + md5File.sync(this.filePath.replace('.js', '.ts')).slice(0, 7);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
     // console.log(this.contents.toString());
     traverse(this.ast, {
       enter: (node) => {
@@ -61,12 +79,12 @@ export class Parser {
                 { type: 'ArrayExpression', elements: ele },
               );
             }
-            // 首参数是依赖数组，推入moduleId
+            // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
             if (node.arguments[0].type === 'ArrayExpression') {
               node.arguments.unshift(
                 {
                   type: 'Literal',
-                  value: parseBase(this.root, this.filePath, this.prefix, this.moduleId)
+                  value: parseBase(this.root, this.filePath, this.prefix, this.moduleId)  + md5Value
                 },
               );
             } else if (node.arguments[0].type === 'ObjectExpression' || node.arguments[0].type === 'Identifier') {
@@ -95,9 +113,24 @@ export class Parser {
                 // console.log('analyzer', dep, requireNode);
               },
             );
-            if (node.arguments[1]
-              && !this.isHasObj(node.arguments[1].elements, 'require')
-              && node.arguments[1].elements) {
+
+            // 第二参数是依赖数组 => define("", ['require', 'exports', 'md5-file'])
+            if (node.arguments[1].elements) {
+              node.arguments[1].elements.forEach((element, index) => {
+                const valueString = element.value;
+                /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
+                const depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
+                if ( existsSync(depPath) ) {
+                  const md5 = '_' + md5File.sync(depPath).slice(0, 7);
+                  // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
+                  const moduleid = parseBase(this.root, depPath, this.prefix) + md5;
+                  node.arguments[1].elements[index].value = moduleid ;
+                }
+              });
+            }
+
+            if (node.arguments[1] && node.arguments[1].elements
+              && !this.isHasObj(node.arguments[1].elements, 'require')) {
               node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
             }
             if (node.arguments[2] && !this.isHasObj(node.arguments[2].params, 'require') && node.arguments[2].params) {
@@ -184,6 +217,7 @@ export class Parser {
 
 interface HookOption {
   removeModuleId?: boolean;
+  useMd5?: any;
 }
 function isAmdDefine(node) {
   if (node.callee && node.callee.name === 'define') {

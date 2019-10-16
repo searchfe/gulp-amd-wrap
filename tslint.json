@@ -14,13 +14,13 @@
     "max-classes-per-file": false,
     "unified-signatures": false,
     "no-var-requires": false,
-    "quotemark": [true, "single"]
+    "quotemark": [true, "single"],
+    "ordered-imports": false
     // "use-input-property-decorator": true,
     // "use-output-property-decorator": true,
     // "use-host-property-decorator": true
       // "trailing-comma": false,
       // "max-classes-per-file": false,
-      // "ordered-imports": false,
       // "variable-name": false,
       // "prefer-const": false,
       // "member-ordering": false,
