@@ -57,19 +57,19 @@ export class DependencyAnalyzer {
         }
       },
       leave: (node, parent) => {
-        if (node.type === 'VariableDeclaration') {
-          const declarations = hasRequireDeclarations(node);
-          if (declarations) {
-            if (declarations.length) {
-              node.declarations = declarations;
-            } else {
-              /** 这里有个非常坑的bug 没有办法拿到traverse return VisitorOption.Remove 也不会删除，只能置空 */
-              node.type = 'EmptyStatement';
-              // this.remove();
-              return VisitorOption.Remove;
-            }
-          }
-        }
+        // if (node.type === 'VariableDeclaration') {
+        //   const declarations = hasRequireDeclarations(node);
+        //   if (declarations) {
+        //     if (declarations.length) {
+        //       node.declarations = declarations;
+        //     } else {
+        //       /** 这里有个非常坑的bug 没有办法拿到traverse return VisitorOption.Remove 也不会删除，只能置空 */
+        //       node.type = 'EmptyStatement';
+        //       // this.remove();
+        //       return VisitorOption.Remove;
+        //     }
+        //   }
+        // }
       },
     });
     return this.dependencies;

@@ -19,6 +19,7 @@ export class Parser {
   private cwd: string;
   private ast;
   private myModuleId: string;
+  private parseDefine;
   private dependences: string[];
   constructor(
     private contents: Buffer,
@@ -30,6 +31,7 @@ export class Parser {
     this.cwd = dirname(filePath);
     this.parse();
     this.dependences = [];
+    this.parseDefine = 0;
   }
   public getContent() {
     return this.contents;
@@ -71,7 +73,8 @@ export class Parser {
       enter: (node) => {
         if (node.type === 'CallExpression') {
           // 如果是define
-          if (isAmdDefine(node)) {
+          if (node.callee && node.callee.name === 'define' && this.parseDefine < 1) {
+            this.parseDefine++;
             // 首参数是function，推入依赖数组
             if (node.arguments[0].type === 'FunctionExpression') {
               const ele = node.arguments[0].params.map((item) => ({ type: 'Literal', value: item.name }));
@@ -142,9 +145,9 @@ export class Parser {
                 node.arguments[1].elements.map((e) => e.value).indexOf(dep.moduleID) < 0) {
                   node.arguments[1].elements.push({ type: 'Literal', value: dep.moduleID });
                   // factory函数的参数中推入依赖对应的变量名
-                  if (dep.name) {
-                    node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
-                  }
+                  // if (dep.name) {
+                  //   node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
+                  // }
                   this.dependences.push(dep.moduleID);
               }
             });
@@ -185,6 +188,7 @@ export class Parser {
         return node;
       },
       leave: (node) => {
+        this.parseDefine--;
         const aa = new AsyncAnalyzer(
           this.cwd,
           node,
@@ -220,23 +224,4 @@ export class Parser {
 interface HookOption {
   removeModuleId?: boolean;
   useMd5?: any;
-}
-function isAmdDefine(node) {
-  if (node.callee && node.callee.name === 'define') {
-    const index = node.arguments.map((item, idx) => {
-      if (item.type === 'FunctionExpression') {
-        return idx;
-      }
-      return null;
-    }).join('');
-    if (node.arguments[+index].params && node.arguments[+index].params.length > 0) {
-      const params = node.arguments[+index].params.map((item) => {
-        return item.name;
-      });
-      // 结果页特殊的define覆盖
-      return params.slice(-3).join('') !== 'exportsmodule$';
-    }
-    return true;
-  }
-  return false;
 }
