@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-17 11:20:42
+ * @Last Modified time: 2019-10-17 19:16:57
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -54,6 +54,7 @@ export class Parser {
   }
   public hook(hookOption: HookOption = {}) {
     /** 生成的ModuleId md5后缀来避免其他模块引用 @molecule/toptip2_134dfas */
+    this.parseDefine = 0;
     let md5Value: string = '';
 
     if (hookOption.useMd5 === true || hookOption.useMd5 && hookOption.useMd5.useMd5) {
@@ -73,89 +74,92 @@ export class Parser {
       enter: (node) => {
         if (node.type === 'CallExpression') {
           // 如果是define
-          if (node.callee && node.callee.name === 'define' && this.parseDefine < 1) {
+          if (node.callee && node.callee.name === 'define') {
             this.parseDefine++;
-            // 首参数是function，推入依赖数组
-            if (node.arguments[0].type === 'FunctionExpression') {
-              const ele = node.arguments[0].params.map((item) => ({ type: 'Literal', value: item.name }));
-              node.arguments.unshift(
-                { type: 'ArrayExpression', elements: ele },
-              );
-            }
-            // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
-            if (node.arguments[0].type === 'ArrayExpression') {
-              node.arguments.unshift(
-                {
+            if (this.parseDefine === 1) {
+              // 首参数是function，推入依赖数组
+              if (node.arguments[0].type === 'FunctionExpression') {
+                const ele = node.arguments[0].params.map((item) => ({ type: 'Literal', value: item.name }));
+                node.arguments.unshift(
+                  { type: 'ArrayExpression', elements: ele },
+                );
+              }
+              // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
+              if (node.arguments[0].type === 'ArrayExpression') {
+                node.arguments.unshift(
+                  {
+                    type: 'Literal',
+                    value: parseBase(this.root, this.filePath, this.prefix, this.alias)  + md5Value
+                  },
+                );
+              } else if (node.arguments[0].type === 'ObjectExpression' || node.arguments[0].type === 'Identifier') {
+                node.arguments.unshift({ type: 'ArrayExpression', elements: [] });
+                node.arguments.unshift({
                   type: 'Literal',
-                  value: parseBase(this.root, this.filePath, this.prefix, this.alias)  + md5Value
+                  value: parseBase(this.root, this.filePath, this.prefix, this.alias)});
+              } else if (node.arguments[0].type === 'Literal') {
+                const moduleId = node.arguments[0].value;
+                if (moduleId.split('/').pop() === basename(this.filePath, extname(this.filePath))) {
+                  const prefix = moduleId.match(/^\./) === null ? '' : this.prefix;
+                  node.arguments[0].value = parseBase(this.root, this.filePath, prefix, this.alias);
+                }
+              }
+              this.myModuleId = node.arguments[0].value;
+              const analyzer = new DependencyAnalyzer(
+                this.cwd,
+                node,
+                this.prefix,
+                this.alias,
+                this.root,
+                this.staticBaseUrl);
+
+              const deps = analyzer.analysis(
+                (dep, requireNode, parent) => {
+                  // requireNode.id.name = {type};
+                  // console.log('analyzer', dep, requireNode);
                 },
               );
-            } else if (node.arguments[0].type === 'ObjectExpression' || node.arguments[0].type === 'Identifier') {
-              node.arguments.unshift({ type: 'ArrayExpression', elements: [] });
-              node.arguments.unshift({
-                type: 'Literal',
-                value: parseBase(this.root, this.filePath, this.prefix, this.alias)});
-            } else if (node.arguments[0].type === 'Literal') {
-              const moduleId = node.arguments[0].value;
-              if (moduleId.split('/').pop() === basename(this.filePath, extname(this.filePath))) {
-                const prefix = moduleId.match(/^\./) === null ? '' : this.prefix;
-                node.arguments[0].value = parseBase(this.root, this.filePath, prefix, this.alias);
+
+              // 第二参数是依赖数组 => define("", ['require', 'exports', 'md5-file'])
+              if (node.arguments[1].elements) {
+                node.arguments[1].elements.forEach((element, index) => {
+                  const valueString = element.value;
+                  /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
+                  const depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
+                  if ( existsSync(depPath) ) {
+                    const md5 = '_' + md5File.sync(depPath).slice(0, 7);
+                    // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
+                    const moduleid = parseBase(this.root, depPath, this.prefix, this.alias) + md5;
+                    node.arguments[1].elements[index].value = moduleid ;
+                  }
+                });
               }
-            }
-            this.myModuleId = node.arguments[0].value;
-            const analyzer = new DependencyAnalyzer(
-              this.cwd,
-              node,
-              this.prefix,
-              this.alias,
-              this.root,
-              this.staticBaseUrl);
 
-            const deps = analyzer.analysis(
-              (dep, requireNode, parent) => {
-                // requireNode.id.name = {type};
-                // console.log('analyzer', dep, requireNode);
-              },
-            );
-
-            // 第二参数是依赖数组 => define("", ['require', 'exports', 'md5-file'])
-            if (node.arguments[1].elements) {
-              node.arguments[1].elements.forEach((element, index) => {
-                const valueString = element.value;
-                /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
-                const depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
-                if ( existsSync(depPath) ) {
-                  const md5 = '_' + md5File.sync(depPath).slice(0, 7);
-                  // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
-                  const moduleid = parseBase(this.root, depPath, this.prefix, this.alias) + md5;
-                  node.arguments[1].elements[index].value = moduleid ;
+              if (node.arguments[1] && node.arguments[1].elements
+                && !this.isHasObj(node.arguments[1].elements, 'require')) {
+                node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
+              }
+              if (node.arguments[2] && !this.isHasObj(node.arguments[2].params, 'require') && node.arguments[2].params) {
+                node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
+              }
+              deps.forEach((dep) => {
+                if (node.arguments[1] && node.arguments[1].elements &&
+                  node.arguments[1].elements.map((e) => e.value).indexOf(dep.moduleID) < 0) {
+                    node.arguments[1].elements.push({ type: 'Literal', value: dep.moduleID });
+                    // factory函数的参数中推入依赖对应的变量名
+                    // if (dep.name) {
+                    //   node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
+                    // }
+                    this.dependences.push(dep.moduleID);
                 }
               });
-            }
-
-            if (node.arguments[1] && node.arguments[1].elements
-              && !this.isHasObj(node.arguments[1].elements, 'require')) {
-              node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
-            }
-            if (node.arguments[2] && !this.isHasObj(node.arguments[2].params, 'require') && node.arguments[2].params) {
-              node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
-            }
-            deps.forEach((dep) => {
-              if (node.arguments[1] && node.arguments[1].elements &&
-                node.arguments[1].elements.map((e) => e.value).indexOf(dep.moduleID) < 0) {
-                  node.arguments[1].elements.push({ type: 'Literal', value: dep.moduleID });
-                  // factory函数的参数中推入依赖对应的变量名
-                  // if (dep.name) {
-                  //   node.arguments[2].params.push({ type: 'Identifier', name: dep.name });
-                  // }
-                  this.dependences.push(dep.moduleID);
+              if (hookOption.removeModuleId) {
+                node.arguments.shift();
               }
-            });
-            if (hookOption.removeModuleId) {
-              node.arguments.shift();
             }
           }
-          if (node.callee && node.callee.name === 'require') {
+          if (node.callee && node.callee.name === 'require' && this.parseDefine < 2) {
+            console.log('XXX', this.parseDefine);
             const firstArg = node.arguments[0];
             // 首参数是依赖数组，推入moduleId
             if (firstArg.type === 'ArrayExpression') {
@@ -188,13 +192,18 @@ export class Parser {
         return node;
       },
       leave: (node) => {
-        this.parseDefine--;
-        const aa = new AsyncAnalyzer(
-          this.cwd,
-          node,
-          this.root,
-        );
-        aa.analysis();
+        if (node.type === 'CallExpression') {
+          // 如果是define
+          if (node.callee && node.callee.name === 'define') {
+            this.parseDefine --;
+          }
+        }
+        // const aa = new AsyncAnalyzer(
+        //   this.cwd,
+        //   node,
+        //   this.root,
+        // );
+        // aa.analysis();
       },
     });
     this.contents = generate(this.ast);

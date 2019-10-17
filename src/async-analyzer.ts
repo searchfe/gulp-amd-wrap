@@ -1,8 +1,8 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-27 14:21:32
- * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-20 15:29:21
+ * @Last Modified by: qiansc
+ * @Last Modified time: 2019-10-17 19:14:56
  */
 import { traverse, VisitorOption } from 'estraverse';
 import * as moduleID from './moduleID';
@@ -16,12 +16,20 @@ export class AsyncAnalyzer {
     public ast: any,
     /** baseUrl of ModuleID */
     private baseUrl?: string,
+    private limitDefineDepth = 1
   ) {}
 
   /** 进行分析找出require并利用回调处理 最后返回依赖表 */
   public analysis() {
+    let defineDepth = 0;
     traverse(this.ast, {
       enter: (node, parent) => {
+        if (node.type === 'CallExpression' && node.callee && node.callee.name === 'define') {
+          defineDepth ++;
+        }
+        if (defineDepth > this.limitDefineDepth) {
+          return;
+        }
         if (matchAsyncRequireCallExpression(node)) {
           node.arguments[0].elements.forEach((element, index) => {
             /** 如果是动态require就不会有value require(mod) */
@@ -33,6 +41,11 @@ export class AsyncAnalyzer {
           });
         }
       },
+      leave: (node) => {
+        if (node.type === 'CallExpression' && node.callee && node.callee.name === 'define') {
+          defineDepth--;
+        }
+      }
     });
   }
 }

@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 17:25:33
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-16 19:40:04
+ * @Last Modified time: 2019-10-17 19:16:26
  */
 import { traverse, VisitorOption } from 'estraverse';
 import {extname} from 'path';
@@ -19,12 +19,20 @@ export class DependencyAnalyzer {
     private prefix?: string | undefined,
     private alias?: moduleID.aliasConf[],
     private baseUrl?: string,
-    private staticBaseUrl?: string) {}
+    private staticBaseUrl?: string,
+    private limitDefineDepth = 1) {}
 
   /** 进行分析找出require并利用回调处理 最后返回依赖表 */
   public analysis(cb?: analysisCallback): IDependency[] {
+    let defineDepth = 0;
     traverse(this.ast, {
       enter: (node, parent) => {
+        if (node.type === 'CallExpression' && node.callee && node.callee.name === 'define') {
+          defineDepth ++;
+        }
+        if (defineDepth > this.limitDefineDepth) {
+          return;
+        }
         if (matchRequireVariableDeclarator(node)) {
           const dep = getDependencyFromNode(node);
           const prefix = dep.moduleID.match(/^\./) === null ? '' : this.prefix;
@@ -56,21 +64,11 @@ export class DependencyAnalyzer {
           });
         }
       },
-      leave: (node, parent) => {
-        // if (node.type === 'VariableDeclaration') {
-        //   const declarations = hasRequireDeclarations(node);
-        //   if (declarations) {
-        //     if (declarations.length) {
-        //       node.declarations = declarations;
-        //     } else {
-        //       /** 这里有个非常坑的bug 没有办法拿到traverse return VisitorOption.Remove 也不会删除，只能置空 */
-        //       node.type = 'EmptyStatement';
-        //       // this.remove();
-        //       return VisitorOption.Remove;
-        //     }
-        //   }
-        // }
-      },
+      leave: (node) => {
+        if (node.type === 'CallExpression' && node.callee && node.callee.name === 'define') {
+          defineDepth--;
+        }
+      }
     });
     return this.dependencies;
   }
