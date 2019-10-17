@@ -30,9 +30,13 @@ describe('Alias Spec Test', () => {
     return new Promise((resolve, reject) => {
       let debugFn: any;
       function require() {
-        expect(arguments[0]).toMatchObject(['molecule/debug']);
-        expect(arguments[1](debugFn)).toBe('hao123');
-        resolve();
+        if (arguments[0] === 'molecule/debug') {
+
+        } else {
+          expect(arguments[0]).toMatchObject(['molecule/debug']);
+          expect(arguments[1](debugFn)).toBe('hao123');
+          resolve();
+        }
       }
       function define(moduleID, deps, func) {
         if (moduleID === 'molecule/assert/one') {
@@ -74,9 +78,13 @@ describe('Alias Spec Test', () => {
     return new Promise((resolve, reject) => {
       let debugFn: any;
       function require() {
-        expect(arguments[0]).toMatchObject(['debug']);
-        expect(arguments[1](debugFn)).toBe('hao123');
-        resolve();
+        if (arguments[0] === 'debug') {
+
+        } else {
+          expect(arguments[0]).toMatchObject(['debug']);
+          expect(arguments[1](debugFn)).toBe('hao123');
+          resolve();
+        }
       }
       function define(moduleID, deps, func) {
         if (moduleID === 'molecule/assert/one') {

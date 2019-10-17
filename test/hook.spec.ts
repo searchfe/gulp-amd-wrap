@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 17:26:59
+ * @Last Modified time: 2019-10-17 16:42:40
  */
 
 import { existsSync, readFileSync, unlinkSync } from 'fs';
@@ -19,14 +19,18 @@ describe('Hook Test', () => {
 
     return new Promise((resolve) => {
       function require() {
-        expect(arguments[0]).toMatchObject([
-          'A',
-          'assert/B',
-          '/C',
-          '@D/E',
-        ]);
-        expect(arguments[1].apply(this, arguments[0])).toBe(5);
-        resolve();
+        if (arguments[0] === '@scope/moduleA' || arguments[0] === 'assert/moduleB') {
+
+        } else {
+          expect(arguments[0]).toMatchObject([
+            'A',
+            'assert/B',
+            '/C',
+            '@D/E',
+          ]);
+          expect(arguments[1].apply(this, arguments[0])).toBe(5);
+          resolve();
+        }
       }
       function define(moduleID, deps, func) {
         expect(moduleID).toBe('assert/minify-define');
