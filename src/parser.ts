@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-17 19:16:57
+ * @Last Modified time: 2019-10-17 19:54:11
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -159,7 +159,6 @@ export class Parser {
             }
           }
           if (node.callee && node.callee.name === 'require' && this.parseDefine < 2) {
-            console.log('XXX', this.parseDefine);
             const firstArg = node.arguments[0];
             // 首参数是依赖数组，推入moduleId
             if (firstArg.type === 'ArrayExpression') {
