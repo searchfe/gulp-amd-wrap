@@ -1,8 +1,8 @@
 /*
  * @Author: qiansc
  * @Date: 2019-04-28 14:43:21
- * @Last Modified by: liangjiaying@baidu.com
- * @Last Modified time: 2019-08-20 15:53:56
+ * @Last Modified by: qiansc
+ * @Last Modified time: 2019-10-17 11:20:42
  */
 import { generate } from 'escodegen';
 import { parse, parseScript } from 'esprima';
@@ -11,7 +11,7 @@ import { existsSync } from 'fs';
 import { AsyncAnalyzer } from './async-analyzer';
 import { DependencyAnalyzer } from './dependency-analyzer';
 import { include } from './filter';
-import { parseAbsolute, parseBase } from './moduleID';
+import { parseAbsolute, parseBase, aliasConf } from './moduleID';
 import { basename, dirname, extname, resolve } from 'path';
 const md5File = require('md5-file');
 
@@ -25,7 +25,7 @@ export class Parser {
     private filePath: string,
     private root: string,
     private prefix: string,
-    private moduleId?: string,
+    private alias?: aliasConf[],
     private staticBaseUrl?: string) {
     this.cwd = dirname(filePath);
     this.parse();
@@ -84,19 +84,19 @@ export class Parser {
               node.arguments.unshift(
                 {
                   type: 'Literal',
-                  value: parseBase(this.root, this.filePath, this.prefix, this.moduleId)  + md5Value
+                  value: parseBase(this.root, this.filePath, this.prefix, this.alias)  + md5Value
                 },
               );
             } else if (node.arguments[0].type === 'ObjectExpression' || node.arguments[0].type === 'Identifier') {
               node.arguments.unshift({ type: 'ArrayExpression', elements: [] });
               node.arguments.unshift({
                 type: 'Literal',
-                value: parseBase(this.root, this.filePath, this.prefix, this.moduleId)});
+                value: parseBase(this.root, this.filePath, this.prefix, this.alias)});
             } else if (node.arguments[0].type === 'Literal') {
               const moduleId = node.arguments[0].value;
               if (moduleId.split('/').pop() === basename(this.filePath, extname(this.filePath))) {
                 const prefix = moduleId.match(/^\./) === null ? '' : this.prefix;
-                node.arguments[0].value = parseBase(this.root, this.filePath, prefix);
+                node.arguments[0].value = parseBase(this.root, this.filePath, prefix, this.alias);
               }
             }
             this.myModuleId = node.arguments[0].value;
@@ -104,6 +104,7 @@ export class Parser {
               this.cwd,
               node,
               this.prefix,
+              this.alias,
               this.root,
               this.staticBaseUrl);
 
@@ -123,7 +124,7 @@ export class Parser {
                 if ( existsSync(depPath) ) {
                   const md5 = '_' + md5File.sync(depPath).slice(0, 7);
                   // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
-                  const moduleid = parseBase(this.root, depPath, this.prefix) + md5;
+                  const moduleid = parseBase(this.root, depPath, this.prefix, this.alias) + md5;
                   node.arguments[1].elements[index].value = moduleid ;
                 }
               });
@@ -160,8 +161,8 @@ export class Parser {
                   element.value = parseBase(
                     this.root,
                     parseAbsolute(this.cwd, element.value),
-                    '',
-                    this.moduleId);
+                    this.prefix,
+                    this.alias);
                   element.raw = `"${element.value}"`;
                   this.dependences.push(element.value);
                 }
@@ -173,8 +174,8 @@ export class Parser {
                 firstArg.value = parseBase(
                   baseUrl,
                   parseAbsolute(this.cwd, firstArg.value),
-                  '',
-                  this.moduleId);
+                  this.prefix,
+                  this.alias);
                 firstArg.raw = `"${firstArg.value}"`;
                 this.dependences.push(firstArg.value);
               }
@@ -193,6 +194,7 @@ export class Parser {
       },
     });
     this.contents = generate(this.ast);
+    return this;
   }
   private parse() {
     this.ast = parseScript(this.contents.toString());

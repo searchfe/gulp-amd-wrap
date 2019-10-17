@@ -18,7 +18,7 @@ describe('Parser Spec Test', () => {
       function require() {
         expect(arguments[0]).toMatchObject([
           'A',
-          'assert/B',
+          prefix+ '/assert/B',
           '/C',
           '@D/E',
         ]);

@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-28 17:25:33
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-04-29 16:14:06
+ * @Last Modified time: 2019-10-16 19:40:04
  */
 import { traverse, VisitorOption } from 'estraverse';
 import {extname} from 'path';
@@ -17,6 +17,7 @@ export class DependencyAnalyzer {
     private ast: any,
     /** baseUrl of ModuleID */
     private prefix?: string | undefined,
+    private alias?: moduleID.aliasConf[],
     private baseUrl?: string,
     private staticBaseUrl?: string) {}
 
@@ -32,7 +33,7 @@ export class DependencyAnalyzer {
           dep.moduleID = moduleID.parseBase(
             baseUrl,
             moduleID.parseAbsolute(this.cwd, dep.moduleID),
-            prefix);
+            prefix, this.alias);
           const replaced = cb ? cb(dep, node, parent) : undefined;
           if (node.arguments && node.arguments[0]
             && node.arguments[0].value
@@ -50,7 +51,7 @@ export class DependencyAnalyzer {
             item.value = moduleID.parseBase(
               baseUrl,
               moduleID.parseAbsolute(this.cwd, item.value),
-              prefix);
+              prefix, this.alias);
             node.arguments[1].elements[index] = item;
           });
         }

@@ -30,8 +30,10 @@ gulp.src(
   prefix: 'wiseindex/',
   // 不参与amd-hook分析的文件
   exelude: ['/exclude-**.js', '/dist/**'],
-  moduleID: {
-    'moduleID': 'filepath'
+  alias: {
+    moduleID: 'debug',
+    path: 'util/debug',
+    prifix: false
   }
 })).pipe(
   gulp.dest(`${__dirname}\/dist\/`),
@@ -50,7 +52,7 @@ define(function() {
   var moduleA = require('@scope/moduleA');
   var moduleB = require('./moduleB');
 
-  require(['A', './B', '/C', '@D/E'], function(a, b, c, d){
+  require(['A', './B', '/C', '@D/E', './util/debug'], function(a, b, c, d){
     console.log(a, b, c, d);
   });
 
@@ -59,18 +61,19 @@ define(function() {
 });
 
 // After
-define('assert/minify-define', [
+define('wiseindex/assert/minify-define', [
     'require',
     '@scope/moduleA',
-    'assert/moduleB'
+    'wiseindex/assert/moduleB'
 ], function (require, moduleA, moduleB) {
     'use strict';
     var fishObj = { name: 'nimo' };
     require([
         'A',
-        'assert/B',
+        'wiseindex/assert/B',
         '/C',
-        '@D/E'
+        '@D/E',
+        'debug'
     ], function (a, b, c, d) {
         console.log(a, b, c, d);
     });
