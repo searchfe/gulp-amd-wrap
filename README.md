@@ -30,11 +30,11 @@ gulp.src(
   prefix: 'wiseindex/',
   // 不参与amd-hook分析的文件
   exelude: ['/exclude-**.js', '/dist/**'],
-  alias: {
-    moduleID: 'debug',
+  alias: [{
+    moduleId: 'debug',
     path: 'util/debug',
     prifix: false
-  }
+  }]
 })).pipe(
   gulp.dest(`${__dirname}\/dist\/`),
 );

@@ -23,7 +23,7 @@ export function amdWrap(option: IAmdWrap) {
       // 如果传入多个文件，且文件各配置不同，confAboutFile需要被传入，这样才能依据配置对文件进行处理。
       if (option.confAboutFile && option.confAboutFile[path.relative(process.cwd(), file.path)]) {
           option = Object.assign(option.confAboutFile[path.relative(process.cwd(), file.path)]
-          , {confAboutFile: option.confAboutFile});
+          , {confAboutFile: option.confAboutFile, alias: option.alias});
       }
       // 传入baseUrl则moduleid基于baseUrl计算
       const baseUrl = option.baseUrl || file.base;
@@ -31,13 +31,13 @@ export function amdWrap(option: IAmdWrap) {
       const useMd5 = option.useMd5 || false;
       const alias: aliasConf[] = [];
       if (option.alias) {
-        option.alias.forEach(a => {
+        option.alias.forEach((a) => {
           alias.push({
             moduleId: a.moduleId,
-            path: parseAbsolute(baseUrl, a.path)
-          });
+            path: parseAbsolute(baseUrl, a.path),
+            prefix: a.prefix || false});
         });
-      };
+      }
       // let location = parseBase(file.path);
       if (include(file.path, option.exclude, option.baseUrl)) {
         // 在exlude名单中 do nothing
