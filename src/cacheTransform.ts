@@ -9,10 +9,13 @@ export class CacheStore {
     this.dir = resolve(process.cwd(), '.cache', key || 'temp');
     mkdirsSync(this.dir);
   }
-  getCache(file: File): Cache | undefined {
+  getCache(file: File): File | undefined {
     const cacheDir = this.getFolder(file);
     if (!existsSync(cacheDir + '.cache')) {
       return;
+    }
+    if (existsSync(cacheDir + '.pass')) {
+      return file;
     }
     if (existsSync(cacheDir + '.deps')) {
       let diff = false;
@@ -30,14 +33,16 @@ export class CacheStore {
         return;
       }
     }
-    return {
-      contents: readFileSync(cacheDir + '.cache')
-    }
+    file.contents = readFileSync(cacheDir + '.cache');
+    return file;
   }
 
-  saveCache(file: File) {
+  saveCache(file: File, nochange: boolean = false) {
     if (file && file.stat && file.stat.mtimeMs) {
       const cacheDir = this.getFolder(file);
+      if (nochange) {
+        writeFileSync(cacheDir + '.pass', '');
+      }
       if (file.depFiles) {
         let error = false;
         let depinfo = '';
@@ -60,22 +65,26 @@ export class CacheStore {
   }
 
   getFolder(file: File) {
-    let md5sum = crypto.createHash('md5');
-    md5sum.update(file.path + file.stat.mtimeMs, 'utf8');
-    return this.dir + '/' + md5sum.digest('hex').substring(0,32);
+    let md5 = file.cacheMd5;
+    if (md5 === undefined) {
+      let md5sum = crypto.createHash('md5');
+      md5sum.update(file.path + file.stat.mtimeMs, 'utf8');
+      md5 = file.cacheMd5 = md5sum.digest('hex').substring(0,32);
+    }
+
+    return this.dir + '/' + md5;
   }
 
   proxy(t: transform) {
     if (process.env.build_cache === "open") {
       return (file: File, enc, callback: Callback) => {
-        const cache = this.getCache(file);
-        if (cache) {
-          file.contents = cache.contents;
-          callback(null, file);
+        const newFile = this.getCache(file);
+        if (newFile) {
+          callback(null, newFile);
         } else {
-          t(file, enc, (buffer, file) => {
-            this.saveCache(file);
-            callback(null, file);
+          t(file, enc, (buffer, nfile) => {
+            this.saveCache(nfile, nfile.contents.length === file.contents.length);
+            callback(null, nfile);
           });
         }
       }
