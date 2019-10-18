@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-23 11:17:36
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-16 19:32:26
+ * @Last Modified time: 2019-10-18 19:35:09
  */
 
 import { File, PluginError } from 'gulp-util';
@@ -10,8 +10,7 @@ import path = require('path');
 import { include } from './filter';
 import { parseAbsolute, parseBase, aliasConf } from './moduleID';
 import { Parser } from './parser';
-import stream = require('readable-stream');
-const Transform = stream.Transform;
+import { Transform } from './cacheTransform';
 
 export function amdWrap(option: IAmdWrap) {
   return new Transform({

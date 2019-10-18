@@ -9,6 +9,7 @@
 *.~
 .*.un~
 .vimrc
+.cache
 
 # build related
 build/
