@@ -10,10 +10,10 @@ import path = require('path');
 import { include } from './filter';
 import { parseAbsolute, parseBase, aliasConf } from './moduleID';
 import { Parser } from './parser';
-import { Transform } from './cacheTransform';
-
+import { Transform } from 'gulp-transform-cache';
+class Pipe extends Transform {}
 export function amdWrap(option: IAmdWrap) {
-  return new Transform({
+  return new Pipe({
     objectMode: true,
     transform: (file: File, enc, callback) => {
       if (path.extname(file.path) !== '.js') {
