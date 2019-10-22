@@ -79,9 +79,8 @@ export class Parser {
             if (this.parseDefine === 1) {
               // 首参数是function，推入依赖数组
               if (node.arguments[0].type === 'FunctionExpression') {
-                const ele = node.arguments[0].params.map((item) => ({ type: 'Literal', value: item.name }));
                 node.arguments.unshift(
-                  { type: 'ArrayExpression', elements: ele },
+                  { type: 'ArrayExpression', elements: [] },
                 );
               }
               // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
