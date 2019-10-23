@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-24 15:54:24
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-10-17 19:54:02
+ * @Last Modified time: 2019-10-18 19:29:30
  */
 
 import { existsSync, readFileSync, unlinkSync } from 'fs';
@@ -44,7 +44,6 @@ describe('Hook Test', () => {
           `${__dirname}\/assert/*.js`, {
           base: __dirname,
         },
-      //  path.resolve(__dirname, 'assert/minify-define.js')
       ).pipe(amdWrap({
         exclude: ['/assert/exclude-**.js', '/dist/**'],
       })).pipe(
@@ -52,7 +51,6 @@ describe('Hook Test', () => {
       ).on('end',
         () => {
           const code = readFileSync(file).toString();
-          // tslint:disable-next-line:no-eval
           eval(code);
         },
       );
@@ -60,16 +58,3 @@ describe('Hook Test', () => {
     });
   });
 });
-
-// describe('测试评论列表项组件', () => {
-
-//   it('测试1', () => {
-//     const propsData = {
-//       name: 'hj',
-//     };
-
-//     expect(propsData.name).toBe('hj');
-
-//   });
-
-// });

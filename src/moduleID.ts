@@ -2,7 +2,7 @@
  * @Author: qiansc
  * @Date: 2019-04-29 12:53:02
  * @Last Modified by: qiansc
- * @Last Modified time: 2019-06-05 10:45:24
+ * @Last Modified time: 2019-10-17 11:32:43
  */
 import { extname, resolve } from 'path';
 /** 将相对路径转化为绝对路径 ./A ../ */
@@ -27,13 +27,26 @@ export function parseBase(
   /** moduleID前缀 */
   prefix?: string,
   /** 自定义moduleId */
-  moduleID?: string): string {
+  alias: aliasConf[] = []): string {
   if (extname(filePath) === '.json') {
     return parseJsonBase(baseUrl, filePath);
   }
-  if (moduleID) {
-    return (prefix ? prefix + '/' : '') + moduleID;
+
+  let conf: aliasConf | undefined;
+  alias.forEach(a => {
+    if (a.path === filePath || a.path === filePath.replace(/(\.js|\.ts)$/, '')) {
+      conf =  a;
+    }
+  });
+
+  if (conf !== undefined) {
+    if (conf.prefix) {
+      return prefix + '/' + conf.moduleId;
+    } else {
+      return conf.moduleId;
+    }
   }
+
   if (filePath.match(/^\//) !== null && filePath.indexOf(baseUrl) === 0 ) {
     return (prefix ? prefix + '/' : '') + filePath.substring(baseUrl.length + 1).replace(/(\.js|\.ts)$/, '');
   }
@@ -48,4 +61,13 @@ export function parseJsonBase(
     return filePath.substring(baseUrl.length + 1);
   }
   return filePath;
+}
+
+export interface aliasConf {
+  /** 自定义moduleID */
+  moduleId: string;
+  /** 自定义module path */
+  path: string;
+  /** 带上别名 */
+  prefix?: boolean;
 }

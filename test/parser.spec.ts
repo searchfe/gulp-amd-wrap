@@ -16,9 +16,12 @@ describe('Parser Spec Test', () => {
 
     return new Promise((resolve) => {
       function require() {
+        if (arguments[0] === '@scope/moduleA' || arguments[0] === 'molecule/assert/moduleB') {
+          return;
+        }
         expect(arguments[0]).toMatchObject([
           'A',
-          'assert/B',
+          prefix+ '/assert/B',
           '/C',
           '@D/E',
         ]);
@@ -47,6 +50,9 @@ describe('Parser Spec Test', () => {
     console.log(code);
     return new Promise((resolve) => {
       function require() {
+        if (arguments[0] === '@scope/moduleA' || arguments[0] === 'assert/moduleB') {
+          return;
+        }
         expect(arguments[0]).toMatchObject([
           'A',
           'assert/B',
