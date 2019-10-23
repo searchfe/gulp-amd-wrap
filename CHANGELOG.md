@@ -1,3 +1,25 @@
+# [1.1.0](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.10...v1.1.0) (2019-10-23)
+
+
+### Bug Fixes
+
+* alias bug ([fd2eeaf](https://github.com/searchfe/gulp-amd-wrap/commit/fd2eeaf))
+* never push function argumentds into deps array ([5787bcc](https://github.com/searchfe/gulp-amd-wrap/commit/5787bcc))
+* never push function argumentds into deps array ([49c3750](https://github.com/searchfe/gulp-amd-wrap/commit/49c3750))
+* test for keep var ([fb3c073](https://github.com/searchfe/gulp-amd-wrap/commit/fb3c073))
+
+
+### Features
+
+* add alias ([f41e0e1](https://github.com/searchfe/gulp-amd-wrap/commit/f41e0e1))
+* eslint upgrade ([483d3e4](https://github.com/searchfe/gulp-amd-wrap/commit/483d3e4))
+* support cache ([a41ee37](https://github.com/searchfe/gulp-amd-wrap/commit/a41ee37))
+* support cache ([730a2d5](https://github.com/searchfe/gulp-amd-wrap/commit/730a2d5))
+* upgrade predeps ([ef62705](https://github.com/searchfe/gulp-amd-wrap/commit/ef62705))
+* upgrade preinstall ([2e08a28](https://github.com/searchfe/gulp-amd-wrap/commit/2e08a28))
+* upgrade preinstall ([fd9fa34](https://github.com/searchfe/gulp-amd-wrap/commit/fd9fa34))
+* upgrade preinstall ([894d3bb](https://github.com/searchfe/gulp-amd-wrap/commit/894d3bb))
+
 ## [1.0.10](https://github.com/searchfe/gulp-amd-wrap/compare/v1.0.9...v1.0.10) (2019-09-19)
 
 
