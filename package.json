@@ -16,8 +16,7 @@
     "watch": "gulp watch & npm start",
     "start": "npm run url && http-server ./ -c-1 -p 8077",
     "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "preinstall": "npm install gulp-transform-cache"
+    "semantic-release": "semantic-release"
   },
   "config": {
     "commitizen": {
@@ -86,6 +85,9 @@
     "md5-file": "^4.0.0",
     "minimatch": "^3.0.4",
     "readable-stream": "^3.3.0"
+  },
+  "peerDependencies": {
+    "gulp-transform-cache": "^1.1.0"
   },
   "engines": {
     "node": ">= 6.0.x"
