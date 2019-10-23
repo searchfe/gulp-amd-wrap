@@ -27,7 +27,7 @@ aa.analysis();
 console.log(generate(aa.ast));
 
 describe('Test is comming soon', () => {
-  it('one', () => {
-  // do nothing
-  });
+    it('one', () => {
+        // do nothing
+    });
 });

@@ -10,18 +10,18 @@ import { resolve } from 'path';
 /**
  * 判断文件filePath是否在规则覆盖范围内
  */
-export function include(filePath: string, patterns?: string[], baseUrl?: string): boolean {
-  if (patterns === undefined) {
+export function include (filePath: string, patterns?: string[], baseUrl?: string): boolean {
+    if (patterns === undefined) {
+        return false;
+    }
+    for (const pattern of patterns) {
+        let condition = pattern;
+        if (baseUrl) {
+            condition = resolve(baseUrl, pattern);
+        }
+        if (minimatch(filePath, condition)) {
+            return true;
+        }
+    }
     return false;
-  }
-  for (const pattern of patterns) {
-    let condition = pattern;
-    if (baseUrl) {
-      condition = resolve(baseUrl, pattern);
-    }
-    if (minimatch(filePath, condition)) {
-      return true;
-    }
-  }
-  return false;
 }

@@ -4,7 +4,7 @@ define('assert-absolutize/modulex', [
     'assert/moduleB'
 ], function (require, moduleA, moduleB) {
     'use strict';
-    var fishObj = { name: 'nimo' };
+    const fishObj = { name: 'nimo' };
     ;
     ;
     require([

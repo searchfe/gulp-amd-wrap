@@ -2,6 +2,5 @@
  * minify define amd module
  */
 
-define(function() {
+define(function () {
 });
-  

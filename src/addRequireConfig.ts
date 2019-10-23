@@ -1,9 +1,9 @@
 import { File } from 'gulp-util';
-import { basename, relative, resolve} from 'path';
+import { basename, relative, resolve } from 'path';
 const Transform = require('readable-stream/transform');
 
 /** 解析所有文件的moduleID, 生成config后插到入口文件的头部 */
-export function addRequireConfig(option: OptionType) {
+export function addRequireConfig (option: OptionType) {
     const mainJs = option.mainJs || 'main.js';
     const pathConfig: object = {};
     let mainFile;
@@ -27,12 +27,12 @@ export function addRequireConfig(option: OptionType) {
             callback(null, file);
         },
         // 将pathConfig对象中的moduleId打印成config文件，塞入主文件main.js
-        flush(callback) {
+        flush (callback) {
             const finalConfig = 'require.config({paths:' + JSON.stringify(pathConfig) + '});\n';
-            mainFile.contents = new Buffer(finalConfig + mainFile.contents.toString());
+            mainFile.contents = Buffer.from(finalConfig + mainFile.contents.toString());
             this.push(mainFile);
             callback();
-        },
+        }
     });
 }
 interface OptionType {

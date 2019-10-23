@@ -38,18 +38,18 @@ console.log(da.analysis());
  * "name":"require"},"arguments":[{"type":"Literal","value":"A","raw":"'A'"}]}}]
  */
 describe('dependency-analyzer test', () => {
-  it('get A module', () => {
-    expect(da.analysis()).toContainEqual({
-      moduleID: 'A',
-      name: 'A',
-      value: 'A',
+    it('get A module', () => {
+        expect(da.analysis()).toContainEqual({
+            moduleID: 'A',
+            name: 'A',
+            value: 'A'
+        });
     });
-  });
-  it('get E module', () => {
-    expect(da.analysis()).toContainEqual({
-      moduleID: 'AA',
-      name: '',
-      value: 'AA',
+    it('get E module', () => {
+        expect(da.analysis()).toContainEqual({
+            moduleID: 'AA',
+            name: '',
+            value: 'AA'
+        });
     });
-  });
 });

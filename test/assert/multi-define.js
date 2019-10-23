@@ -1,17 +1,16 @@
 define([
-  'require'
-], function(require) {
-    define('./xx', function() {
-      var one = require('one');
-      var two = require('./two');
+    'require'
+], function (require) {
+    define('./xx', function () {
+        const one = require('one');
+        const two = require('./two');
     });
-    define(function() {
-      define(function() {
-        'use strict';
-
-      });
-      var one = require('one');
-      var two = require('./two');
+    define(function () {
+        define(function () {
+            'use strict';
+        });
+        const one = require('one');
+        const two = require('./two');
     });
     return 'multi';
 });
