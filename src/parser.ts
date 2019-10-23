@@ -79,9 +79,8 @@ export class Parser {
             if (this.parseDefine === 1) {
               // 首参数是function，推入依赖数组
               if (node.arguments[0].type === 'FunctionExpression') {
-                const ele = node.arguments[0].params.map((item) => ({ type: 'Literal', value: item.name }));
                 node.arguments.unshift(
-                  { type: 'ArrayExpression', elements: ele },
+                  { type: 'ArrayExpression', elements: [] },
                 );
               }
               // 首参数推入moduleId => define("@molecule/toptip/main",xxxx)
@@ -137,10 +136,20 @@ export class Parser {
 
               if (node.arguments[1] && node.arguments[1].elements
                 && !this.isHasObj(node.arguments[1].elements, 'require')) {
-                node.arguments[1].elements.push({ type: 'Literal', value: 'require' });
+                node.arguments[1].elements.unshift({ type: 'Literal', value: 'require' });
               }
-              if (node.arguments[2] && !this.isHasObj(node.arguments[2].params, 'require') && node.arguments[2].params) {
-                node.arguments[2].params.push({ type: 'Identifier', name: 'require' });
+              if (node.arguments[2] && node.arguments[2].params) {
+                if (!this.isHasObj(node.arguments[2].params, 'require')) {
+                  node.arguments[2].params.unshift({ type: 'Identifier', name: 'require' });
+                }
+                node.arguments[2].params.forEach((item, index) => {
+                  if (item.name === 'exports') {
+                    node.arguments[1].elements[index] = { type: 'Literal', value: 'exports' };
+                  }
+                  else if (item.name === 'module') {
+                    node.arguments[1].elements[index] = { type: 'Literal', value: 'module' };
+                  }
+                });
               }
               deps.forEach((dep) => {
                 if (node.arguments[1] && node.arguments[1].elements &&
