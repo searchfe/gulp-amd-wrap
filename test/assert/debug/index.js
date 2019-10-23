@@ -1,3 +1,3 @@
-define(function(require) {
-  return 'hao123';
+define(function (require) {
+    return 'hao123';
 });

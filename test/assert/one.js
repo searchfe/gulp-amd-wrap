@@ -1,14 +1,13 @@
-define(function() {
-  'use strict';
+define(function () {
+    'use strict';
 
-  var moduleA = require('./debug/index');
+    const moduleA = require('./debug/index');
 
-  require(['./debug/index'], function(debug){
-    return debug;
-  });
+    require(['./debug/index'], function (debug) {
+        return debug;
+    });
 
-  return {
+    return {
 
-  };
-
+    };
 });
