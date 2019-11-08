@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/searchfe/gulp-amd-wrap/compare/v1.1.1...v1.1.2) (2019-11-08)
+
+
+### Bug Fixes
+
+* useMd5设置后moduleID未更改 ([67621ce](https://github.com/searchfe/gulp-amd-wrap/commit/67621ce))
+
 ## [1.1.1](https://github.com/searchfe/gulp-amd-wrap/compare/v1.1.0...v1.1.1) (2019-11-08)
 
 
