@@ -126,9 +126,23 @@ export class Parser {
                                   /** depPath: 实际依赖的相对路径文件。如果是node_module就为空 */
                                   const depPath = parseAbsolute(dirname(this.filePath), valueString + '.ts');
                                   if (existsSync(depPath)) {
-                                      const md5 = '_' + md5File.sync(depPath).slice(0, 7);
+                                      let md5 = '';
+                                      if (hookOption.useMd5 === true ||
+                                        (hookOption.useMd5 && hookOption.useMd5.useMd5)) {
+                                          const exlude = hookOption.useMd5.exlude; // 要被排除的文件
+
+                                          if (!include(resolve(this.filePath), exlude, this.root)) {
+                                              // 不在md5排除名单中
+                                              try {
+                                                  md5 = '_' + md5File.sync(depPath).slice(0, 7);
+                                              } catch (e) {
+                                                  console.log(e);
+                                              }
+                                          }
+                                      }
                                       // moduleid 示例：@molecule/toptip/main_dc85e717d6352fa285bc70bc2d1d3595
                                       const moduleid = parseBase(this.root, depPath, this.prefix, this.alias) + md5;
+                                      console.log(moduleid);
                                       node.arguments[1].elements[index].value = moduleid;
                                   }
                               });
