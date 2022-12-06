@@ -8,7 +8,7 @@
     "start": "npm run url && http-server ../ -c-1 -p 8077"
   },
   "devDependencies": {
-    "http-server": "^0.11.1"
+    "http-server": "^0.11.2"
   },
   "dependencies": {},
   "engines": {
